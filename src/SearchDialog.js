@@ -11,12 +11,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import SearchIcon from '@material-ui/icons/Search';
-
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import InputBase from '@material-ui/core/InputBase';
 
 
 
@@ -33,6 +34,9 @@ const useStyles = makeStyles(theme => ({
     spacer: {
         height: 128,
     },
+    barList: {
+        height: 128,
+    }
 
 }))
 
@@ -80,15 +84,19 @@ export default function SearchButton(props) {
                     />
                 </Toolbar>
             </AppBar>
-            <Toolbar className={classes.spacer} />
             <DialogContent>
+                <Toolbar className={classes.spacer} />
                 <List className={classes.nopad} >
                     { results.map((track) =>
                     <ListItem key={track.id}>
                         <Avatar variant="square" className={classes.square} src={track.art} />
                         <ListItemText primary={track.name} secondary={track.artist} />
                         <ListItemSecondaryAction>
-                            <IconButton onClick={()=> add_track(track.id)}><AddIcon /></IconButton>
+                            { !props.checkTrackInQueue(track.id) ?
+                                <IconButton onClick={()=> add_track(track.id)}><AddIcon /></IconButton>
+                                :
+                                <IconButton disabled><PlaylistAddCheckIcon /></IconButton>
+                            }
                         </ListItemSecondaryAction>
                     </ListItem>
                     )}

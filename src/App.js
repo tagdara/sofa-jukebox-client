@@ -65,10 +65,14 @@ const useStyles = makeStyles(theme => ({
     square: {
         marginRight: 16,
     },
+    topbar: {
+        marginTop: "env(safe-area-inset-top)",
+    },
     barList: {
         paddingLeft:0,
     },
     spacer: {
+        marginTop: "env(safe-area-inset-top)",
         height: 128,
     },
     fab: {
@@ -83,6 +87,14 @@ const useStyles = makeStyles(theme => ({
     nowplayingBar: {
         height: 64,
         overflow: "hidden",
+    },
+    nowrap: {
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+    },
+    paper: {
+        width: "100%",
     }
 }));
 
@@ -211,19 +223,31 @@ function App() {
         console.log('restarting spotifyd')
         get_json('spotifyd/restart').then(result => {console.log(result)})
     }
+    
+    function checkTrackInQueue(id) {
+        for (var i = 0; i < queue.length; i++) {
+            if (queue[i].id==id) {
+                return true
+            }
+        }
+        return false
+    }
 
   return (
     <ThemeProvider theme={theme}> 
-    <Paper>
-        <AppBar position="fixed">
+    <Paper className={classes.paper} >
+        <AppBar position="fixed" className={classes.topbar} >
             <Toolbar className={classes.barList}>
                 { nowPlaying &&
                     <List className={classes.title}>
                         <ListItem className={classes.nowplayingBar}>
                             <Avatar variant="square" className={classes.square} src={nowPlaying.art} />
-                            <ListItemText primary={nowPlaying.name} secondary={nowPlaying.artist} />
+                            <ListItemText classes={{ primary: classes.nowrap, secondary: classes.nowrap }} primary={nowPlaying.name} secondary={nowPlaying.artist} />
                         </ListItem>
                         <ListItem className={classes.controlBar} >
+                            { user && 
+                                <Button onClick={() => setSearching(true)} >Add Songs</Button>
+                            }
                             <ListItemText primary={" "} />
                             <ListItemSecondaryAction>
                                {nowPlaying.is_playing ?
@@ -238,12 +262,8 @@ function App() {
                 }
             </Toolbar>
         </AppBar>
-        {   searching ?
-            <SearchDialog open={searching} close={closeDialog} />
-            :
-            <Fab aria-label={"Add"} className={classes.fab} onClick={() => setSearching(true)} >
-                <AddIcon/>
-            </Fab>
+        {   searching &&
+            <SearchDialog open={searching} close={closeDialog} checkTrackInQueue={checkTrackInQueue} />
         }
             <Toolbar className={classes.spacer} />
         { user && 
@@ -251,7 +271,7 @@ function App() {
                 { queue.map((track,idx) =>
                 <ListItem key={track.id}>
                     <Avatar variant="square" className={classes.square} src={track.art} />
-                    <ListItemText primary={track.name} secondary={track.artist} />
+                    <ListItemText classes={{ primary: classes.nowrap, secondary: classes.nowrap }} primary={track.name} secondary={track.artist} />
                     <ListItemSecondaryAction>
                         <IconButton onClick={()=>remove_track(track.id)}><ClearIcon /></IconButton>
                     </ListItemSecondaryAction>
@@ -277,6 +297,7 @@ function App() {
         :
             <Button color="inherit" onClick={() => auth()}>Login</Button>
         }
+        <Toolbar />
     </Paper>
     </ThemeProvider>
   );
