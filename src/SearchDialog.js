@@ -11,6 +11,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import SearchIcon from '@material-ui/icons/Search';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
@@ -18,6 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 
 
@@ -32,12 +35,19 @@ const useStyles = makeStyles(theme => ({
         marginRight: 16,
     },
     spacer: {
-        height: 128,
+        height: 196,
     },
     barList: {
         height: 128,
+    },
+    textField: {
+        padding: 12,
+        background: "#444",
+        borderRadius: 4,
+    },
+    searchText: {
+        fontSize: 16,
     }
-
 }))
 
 export default function SearchButton(props) {
@@ -50,6 +60,8 @@ export default function SearchButton(props) {
         setSearch(event.target.value);
         if (event.target.value.length > 3) {
             get_json('search/'+event.target.value).then(setResults)
+        } else if (event.target.value.length < 1) {
+            setResults([])
         }
     };    
 
@@ -72,15 +84,25 @@ export default function SearchButton(props) {
         <Dialog open={props.open} fullScreen={true}>
             <AppBar position="fixed">
                 <Toolbar className={classes.barList}>
-                     <TextField
-                        id="standard-name"
-                        label="Search"
+                    <InputBase
+                        classes={{ input: classes.searchText,}}                        
+                        startAdornment={
+                            <InputAdornment position="start">
+                                { search.length ?
+                                <IconButton onClick={()=> props.close()}><ArrowBackIcon /></IconButton>
+                                :
+                                <IconButton onClick={()=> props.close()}><SearchIcon /></IconButton>
+                                }
+                            </InputAdornment>
+                        }
+                        id="song search"
+                        placeholder="Search for songs"
+                        type="search"
                         className={classes.textField}
                         value={search}
                         onChange={handleChange}
                         margin="normal"
                         fullWidth
-                        variant="filled"
                     />
                 </Toolbar>
             </AppBar>
@@ -92,7 +114,7 @@ export default function SearchButton(props) {
                         <Avatar variant="square" className={classes.square} src={track.art} />
                         <ListItemText primary={track.name} secondary={track.artist} />
                         <ListItemSecondaryAction>
-                            { !props.checkTrackInQueue(track.id) ?
+                            { !props.checkQueue(track.id) ?
                                 <IconButton onClick={()=> add_track(track.id)}><AddIcon /></IconButton>
                                 :
                                 <IconButton disabled><PlaylistAddCheckIcon /></IconButton>
