@@ -158,6 +158,26 @@ export default function DataProvider(props) {
         getJSON('addtoplaylist/'+id+"/"+playlistid).then(result=>dataDispatch(result))
     }
     
+    function displayCommand(cmd) {
+        getJSON('display/'+cmd)
+    }
+    
+    function ownedPlaylists() {
+        var owned=[]
+        for (var i = 0; i < playlists.length; i++) {
+            if (playlists[i].owner===user.id) {
+                owned.push(playlists[i])
+            }
+        }
+        return owned
+        
+    }
+    
+    function addThisTrackToPlaylist(playlist) {
+        addTrackToPlaylist(data.nowPlaying.id, playlist)
+        props.setListMode("queue") 
+    }
+   
     return (
         <DataContext.Provider
             value={{
@@ -189,6 +209,9 @@ export default function DataProvider(props) {
                 
                 playlists: playlists,
                 addTrackToPlaylist: addTrackToPlaylist,
+                displayCommand: displayCommand,
+                ownedPlaylists: ownedPlaylists,
+                addThisTrackToPlaylist: addThisTrackToPlaylist,
             }}
         >
             {props.children}

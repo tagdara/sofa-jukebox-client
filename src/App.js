@@ -1,6 +1,7 @@
 import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import deepOrange from '@material-ui/core/colors/deepOrange';
+import grey from '@material-ui/core/colors/grey';
 import NetworkProvider from './NetworkProvider';
 import DataProvider from './DataProvider';
 import MainPage from './MainPage';
@@ -17,7 +18,7 @@ const theme = createMuiTheme({
             medium: deepOrange[500],
             main: deepOrange[600],
             dark: deepOrange[700],
-            mediumDark: deepOrange[800],
+            mediumDark: grey[900],
             superDark: deepOrange[900]
         },
         secondary: {

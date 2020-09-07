@@ -7,10 +7,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
-import AddIcon from '@material-ui/icons/Add';
-
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
+import SyncProblemIcon from '@material-ui/icons/SyncProblem';
 
 const useStyles = makeStyles(theme => ({
 
@@ -48,7 +48,17 @@ export default function UserActionsBar(props) {
 
     const classes = useStyles();
     const { nowPlaying } = useContext(DataContext);   
-    const { connectStream, streamStatus } = useContext(NetworkContext);
+    const { streamStatus } = useContext(NetworkContext);
+
+    function reloadPWA() {
+        
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.unregister();
+            });
+        }
+        window.location.reload(true)
+    }
 
     return (
         <List className={classes.actionBar} >
@@ -63,13 +73,15 @@ export default function UserActionsBar(props) {
                     <SettingsIcon />
                 </Button>
                 { (nowPlaying && nowPlaying.id) &&
-                    <Button size="small" disableElevation color="secondary" className={props.userMode==='add' ? classes.buttonHighlight : classes.button} onClick={()  => props.setUserMode("add") }>
-                        <AddIcon />
+                    <Button size="small" disableElevation className={props.userMode==='add' ? classes.buttonHighlight : classes.button} onClick={()  => props.setUserMode("add") }>
+                        <PlaylistAddIcon />
                     </Button>
                 }
-                <Button size="small" disableElevation className={classes.button} onClick={()  => connectStream() }>
-                    {streamStatus}
+                { streamStatus!==1 &&
+                <Button size="small" disableElevation className={classes.button} onClick={()  => reloadPWA() }>
+                    <SyncProblemIcon />
                 </Button>
+                }
             </ListItem>
         </List>
     )

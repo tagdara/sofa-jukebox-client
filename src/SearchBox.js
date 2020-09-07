@@ -8,24 +8,32 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import Paper from '@material-ui/core/Paper';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
     textField: {
         padding: 4,
         borderRadius: 4,
     },
+    playPause: {
+        marginLeft: 4,
+        marginRight: 8,
+    },
     searchText: {
         fontSize: 16,
         
     },
     searchHolder: {
-        margin: 8,
+        marginLeft: 8,
+        marginTop: 4,
+        marginBottom: 4,
+        margin: 0,
         borderRadius: 4,
-        backgroundColor: theme.palette.background.lowButton,
-        maxWidth: 480,
+        backgroundColor: "#000",
+        width: "100%",
     },
     searchBox: {
-        margin: "-8px 8px 8px 8px",
+        margin: 8,
         zIndex: "-2",
         borderRadius: "0px 0px 8px 8px",
         backgroundColor: theme.palette.primary.superDark,
@@ -51,6 +59,7 @@ export default function SearchBox(props) {
     };    
 
     return (
+        <>
             <Paper elevation={0} className={classes.searchHolder}>
             <InputBase
                 classes={{ input: classes.searchText,}}                        
@@ -59,7 +68,7 @@ export default function SearchBox(props) {
                         { searchText.length ?
                             <IconButton size={"small"} onClick={ ()=> { setSearchText(""); search("") } }><ClearIcon /></IconButton>
                         :
-                            <IconButton size={"small"} ><SearchIcon /></IconButton>
+                            <IconButton size={"small"} onClick={ props.toggleSearch}><SearchIcon /></IconButton>
                         }
                     </InputAdornment>
                 }
@@ -73,5 +82,9 @@ export default function SearchBox(props) {
                 autoFocus
             />
             </Paper>
+            <IconButton size="small" variant="contained" color="secondary" className={classes.playPause} onClick={props.toggleSearch}>
+                <CloseIcon />
+            </IconButton>
+        </>
   );
 }

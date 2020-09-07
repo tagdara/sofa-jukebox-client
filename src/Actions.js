@@ -22,10 +22,10 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-export default function Playlists(props) {
+export default function Actions(props) {
 
     const classes = useStyles();
-    const { user, pickDevice, displayCommand } = useContext(DataContext);
+    const { user, pickDevice, displayCommand, shuffleBackupList } = useContext(DataContext);
     
     function reloadPWA() {
         
@@ -39,6 +39,15 @@ export default function Playlists(props) {
     
     return (
         <List className={classes.nopad} >
+            <ListItem>
+                <Button className={classes.bigButton} onClick={ shuffleBackupList }>Shuffle Backup Tracks</Button>
+            </ListItem>
+            <ListItem>
+                <Button className={classes.bigButton} onClick={() => props.setListMode('playlists')}>Select Playlist</Button>
+            </ListItem>
+            <ListItem>
+                <Button className={classes.bigButton} onClick={() => props.setListMode('addtoplaylist')}>Add Track to Playlist</Button>
+            </ListItem>
             <ListItem>
                 <Button className={classes.bigButton} onClick={reloadPWA}>Reload Jukebox App</Button>
             </ListItem>

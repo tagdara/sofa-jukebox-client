@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default function Playlists(props) {
 
     const classes = useStyles();
-    
+
     console.log('playlists',props.playlists)
 
     return (

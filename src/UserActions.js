@@ -64,7 +64,7 @@ export default function UserActions(props) {
         { props.userMode ==='previous' &&
             <PreviousPicks  setListMode={props.setListMode} add={props.add} tracks={props.previousPicks} 
                             checkQueue={props.checkQueue} checkPrevious={props.checkPrevious}
-                             superPromoteTrack={props.superPromoteTrack} />
+                            superPromoteTrack={props.superPromoteTrack} />
         }
         { props.userMode==='backup' &&
             <>
