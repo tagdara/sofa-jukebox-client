@@ -1,9 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { SearchContext } from 'search/SearchProvider';
-import { QueueContext } from 'queue/QueueProvider';
-
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
@@ -35,29 +33,22 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.mediumButton,
         marginRight: 4,
     },
-
     selected: {
         backgroundColor: theme.palette.background.promoted,
-    }
+    },
     select: {
+        padding: 8,
+        margin: "0 16px",
         borderRadius: 4,
+        backgroundColor: theme.palette.background.paper,
     }
 }))
 
 export default function SearchSelect(props) {
 
     const classes = useStyles();
-    const { searchType, setSearchType, previousPicks } = useContext(SearchContext);
+    const { searchType, setSearchType } = useContext(SearchContext);
 
-    function sortPicks() {
-        if (listMode==='recent') {
-            return [ ...previousPicks.tracks ].reverse()
-        } else {
-            var popPicks=previousPicks.tracks.filter(pick => pick.count > 1);
-            return [...popPicks].sort((a, b) => (a.count > b.count) ? 1 : -1).reverse()
-        }
-    }
-    
     const handleSelect = (event) => {
         setSearchType(event.target.value);
     }

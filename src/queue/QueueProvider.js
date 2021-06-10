@@ -55,13 +55,13 @@ export default function QueueProvider(props) {
     }, []);
 
     function checkTrackInQueue(id) {
-        for (var i = 0; i < data.user.length; i++) {
-            if (data.user[i].id===id) {
+        for (var i = 0; i < data.user.tracks.length; i++) {
+            if (data.user.tracks[i].id===id) {
                 return 'user'
             }
         }
-        for (i = 0; i < data.backup.length; i++) {
-            if (data.backup[i].id===id) {
+        for (i = 0; i < data.backup.tracks.length; i++) {
+            if (data.backup.tracks[i].id===id) {
                 return 'backup'
             }
         }

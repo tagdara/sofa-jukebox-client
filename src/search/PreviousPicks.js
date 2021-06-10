@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { SearchContext } from 'search/SearchProvider';
 import { QueueContext } from 'queue/QueueProvider';
-
-import Button from '@material-ui/core/Button';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -60,10 +58,12 @@ export default function PreviousPicks(props) {
     function sortPicks() {
         if (searchType === 'recent') {
             return [ ...previousPicks.tracks ].reverse()
-        } else {
+        } 
+        if (searchType === 'popular') {
             var popPicks=previousPicks.tracks.filter(pick => pick.count > 1);
             return [...popPicks].sort((a, b) => (a.count > b.count) ? 1 : -1).reverse()
         }
+        return []
     }
     
     return (

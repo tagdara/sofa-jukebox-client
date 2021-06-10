@@ -26,7 +26,7 @@ export default function DeviceProvider(props) {
     const initialState = { "device": {}, "devices": [] }
     
     const [ data, dataDispatch] = useReducer(dataReducer, initialState);
-    const { setListMode, setSnackbarMessage, setShowSnackbar } = useContext(LayoutContext);
+    const { setListMode } = useContext(LayoutContext);
     const { getJSON, addSubscriber } = useContext(NetworkContext);
     
     useEffect(() => {

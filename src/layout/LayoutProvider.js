@@ -29,7 +29,7 @@ export default function LayoutProvider(props) {
 
                 listMode: listMode,
                 setListMode: setListMode,
-
+                setSnackbarMessage: setSnackbarMessage,
                 snackbarMessage: snackbarMessage,
                 showSnackbar: showSnackbar,
                 setShowSnackbar: setShowSnackbar,
