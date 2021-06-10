@@ -2,10 +2,9 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import grey from '@material-ui/core/colors/grey';
-import NetworkProvider from './NetworkProvider';
-import DataProvider from './DataProvider';
-import MainPage from './MainPage';
-import CssBaseline from "@material-ui/core/CssBaseline";
+import NetworkProvider from 'network/NetworkProvider';
+import LayoutProvider from 'layout/LayoutProvider';
+import MainPage from 'layout/MainPage';
 
 const theme = createMuiTheme({
     direction: "ltr",
@@ -54,13 +53,11 @@ export default function App() {
     return (
         <NetworkProvider>
             <ThemeProvider theme={theme}> 
-                <DataProvider>
+                <LayoutProvider>
                     <MainPage />
-                    <CssBaseline />
-                </DataProvider>
+                </LayoutProvider>
             </ThemeProvider>
         </NetworkProvider>
     );
 }
-
 

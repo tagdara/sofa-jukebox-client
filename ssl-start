@@ -1,0 +1,1 @@
+HTTPS=true SSL_CRT_FILE=/opt/cert/daytontech2020.cer SSL_KEY_FILE=/opt/cert/daytontech2020.key npm start
