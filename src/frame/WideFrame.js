@@ -7,7 +7,9 @@ import { QueueContext } from 'queue/QueueProvider';
 import { PlaylistContext } from 'playlist/PlaylistProvider';
 
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Queues from 'queue/Queues';
+import QueueAddButton from 'queue/QueueAddButton';
 import SearchResultsOrSuggestions from 'search/SearchResultsOrSuggestions';
 import JukeboxHeader from 'nowPlaying/JukeboxHeader';
 import ActionList from 'action/ActionList';
@@ -17,6 +19,9 @@ import Playlists from 'playlist/Playlists';
 import PreviewPlaylist from 'playlist/PreviewPlaylist';
 import SearchBox from 'search/SearchBox';
 import StackHeader from 'frame/StackHeader';
+import ReturnBar from 'frame/ReturnBar';
+import SpeakerList from 'speaker/SpeakerList'
+import UserList from 'user/UserList'
 
 import { Scrollbar } from 'react-scrollbars-custom';
 
@@ -59,85 +64,106 @@ const useStyles = makeStyles(theme => ({
         overflow: "hidden",
         transform: 'translateX(-[CONTAINER_SPACING / 2]px)'
     },    
+    xcolumn: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        flexGrow: 1,
+        width: "100%",
+    },
+    column: {
+        position: "relative",
+    },
+    addButton: {
+        maxWidth: "80%",
+        margin: 16,
+    }
 }));
 
 export default function WideFrame() {
 
     
-    const { showSearch, heights, listMode, setListMode, } = useContext(LayoutContext);
+    const { showExpanded, heights, listMode, setListMode, } = useContext(LayoutContext);
     const classes = useStyles(heights);
     const { preview } = useContext(PlaylistContext);
     const { addThisTrackToPlaylist } = useContext(NowPlayingContext);
     const { addRadioTracks, setBackupList } = useContext(QueueContext);
 
-    function pickListMode() {
-        setListMode("playlists")
-    }
-
     function bigCover() {
         // tbd make big display kiosk mode?
     }
 
+    console.log('listmode', listMode)
+
     return (
         <>
-            <Grid item xs={4} className={classes.searchBlock}>
-                <JukeboxHeader coverClick={bigCover} small={ false }  /> />
-                <Scrollbar style={{ width: "100%", height: heights.halfHeight }}>
+            <Grid item xs={showExpanded ? 4 : 6} className={classes.column}>
+                <JukeboxHeader coverClick={bigCover} small={ false }  /> 
+                { !showExpanded &&
+                    <Button fullWidth className={classes.addButton} onClick={() => setListMode('search')}>Add Songs</Button>
+                }
+            </Grid>
+            <Grid item xs={showExpanded ? 4 : 6} className={classes.column}>
+                <StackHeader name={"Queue"} />
+                <Scrollbar style={{ width: "100%" }} >
+                    <Queues scrollUnfold={true} />
+                </Scrollbar>
+                <QueueAddButton />
+            </Grid>
+            { showExpanded &&
+                <Grid item xs={4} className={classes.xsearchBlock}>
+                    { listMode === 'search' &&
+                        <>
+                            <StackHeader name={"Search"} />
+                            <SearchBox />
+                            <Scrollbar style={{ width: "100%" }} >     
+                                <SearchResultsOrSuggestions />
+                            </Scrollbar>
+                        </>
+                    }
+                    { listMode === "playlists" &&
+                        <>
+                            <StackHeader name={"Playlists"} />
+                            <ReturnBar label={"Select a Playlist"}/>
+                            <Playlists action={ setBackupList } />
+                        </>
+                    }
                     { listMode==="actions" &&
-                        <ActionList />
+                        <Scrollbar  style={{ width: "100%" }}>
+                            <ActionList />
+                        </Scrollbar>
                     }
                     { listMode==="devices" &&
-                        <Devices />
-                    }
-                    { listMode==="playlists" &&
-                        <Playlists action={ setBackupList } />
+                        <Scrollbar  style={{ width: "100%" }}>
+                            <Devices />
+                        </Scrollbar>
                     }
                     { listMode==="preview" &&
-                        <PreviewPlaylist playlist={ preview } addRadioTracks={addRadioTracks} />
+                        <Scrollbar  style={{ width: "100%" }}>
+                            <PreviewPlaylist playlist={ preview } addRadioTracks={addRadioTracks} />
+                        </Scrollbar>
                     }
                     { listMode==="addtoplaylist" &&
-                        <Playlists action={ addThisTrackToPlaylist } owned={true}  />
+                        <Scrollbar  style={{ width: "100%" }}>
+                            <Playlists action={ addThisTrackToPlaylist } owned={true}  />
+                        </Scrollbar>
                     }
-                </Scrollbar>
-            </Grid>
-            <Grid item xs={4} className={classes.queueBlock}>
-                <StackHeader name={"Queue"} />
-                <Scrollbar >
-                    <Queues pickListMode={pickListMode} />
-                </Scrollbar>
-            </Grid>
-            { listMode==="actions" &&
-                <Scrollbar>
-                    <ActionList />
-                </Scrollbar>
-            }
-            { listMode==="devices" &&
-                <Scrollbar>
-                    <Devices />
-                </Scrollbar>
-            }
-            { listMode==="playlists" &&
-                <Scrollbar>
-                    <Playlists action={ setBackupList } />
-                </Scrollbar>
-            }
-            { listMode==="preview" &&
-                <Scrollbar>
-                    <PreviewPlaylist playlist={ preview } addRadioTracks={addRadioTracks} />
-                </Scrollbar>
-            }
-            { listMode==="addtoplaylist" &&
-                <Scrollbar>
-                    <Playlists action={ addThisTrackToPlaylist } owned={true}  />
-                </Scrollbar>
-            }
-            { showSearch &&
-                <Grid item xs={4} className={classes.searchBlock}>
-                    <StackHeader name={"Search"} />
-                    <SearchBox />
-                    <Scrollbar >     
-                        <SearchResultsOrSuggestions />
-                    </Scrollbar>
+                    { listMode === "speakers" &&
+                        <>
+                            <ReturnBar label={"Adjust input and volume"}/>
+                            <Scrollbar style={{ width: "100%" }} >
+                                <SpeakerList />
+                            </Scrollbar>
+                        </>
+                    }  
+                    { listMode==="users" &&
+                        <>
+                            <ReturnBar label={"Add or edit users"}/>
+                            <Scrollbar style={{ width: "100%" }}  >
+                                <UserList />
+                            </Scrollbar>
+                        </>
+                    }
                 </Grid>
             }
         </>

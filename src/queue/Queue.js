@@ -45,7 +45,7 @@ function Queue(props) {
             { getFoldableItems().map((track,idx) =>
             <QueueItem  key={track.selection_tracker ? track.selection_tracker : track.id} track={track} index={idx} highlight={ highlight===track.id } remove={props.remove} 
                         promoteTrack={props.promoteTrack} superPromoteTrack={props.superPromoteTrack} addRadioTracks={props.addRadioTracks}
-                        setHighlight={setHighlight} backup={props.backup} user={props.user} />
+                        setHighlight={setHighlight} backup={props.backup} user={props.user} popup={props.popup} />
             )}
             { (props.foldable && props.queue.length>5 ) && 
                 <ListItem>

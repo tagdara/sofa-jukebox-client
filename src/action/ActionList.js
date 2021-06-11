@@ -48,7 +48,7 @@ export default function ActionList(props) {
 
     const classes = useStyles();
     const { setListMode } = useContext(LayoutContext)
-    const { spotifyUser, logout } = useContext(UserContext);
+    const { spotifyUser, isAdmin, logout } = useContext(UserContext);
     const { clearQueue, addRadioTracks, shuffleBackupList } = useContext(QueueContext);
 
     function reloadPWA() {
@@ -67,30 +67,40 @@ export default function ActionList(props) {
                 <Avatar color="primary" variant="square" className={classes.square} ><ShuffleIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Shuffle" } />
             </ListItem>
+            { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => addRadioTracks(props.nowPlaying.id) }>
                 <Avatar variant="square" className={classes.square} ><RadioIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "More Like This" } />
             </ListItem>
+            }
             <ListItem className={classes.item} onClick={ () => setListMode('playlists') }>
                 <Avatar variant="square" className={classes.square} ><QueueMusicIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Select Playlist" } />
             </ListItem>
+            { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => setListMode('addtoplaylist')}>
                 <Avatar variant="square" className={classes.square} ><PlaylistAddIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Add Song to Playlist" } />
             </ListItem>
+            }
+            { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => clearQueue()}>
                 <Avatar variant="square" className={classes.square} ><DeleteOutlineIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Clear Queue" }  />
             </ListItem>
+            }
+            { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => setListMode('devices')}>
                 <Avatar variant="square" className={classes.square} ><SpeakerIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Select Audio Device" }  />
             </ListItem>
+            }
+            { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => setListMode('users')}>
                 <Avatar variant="square" className={classes.square} ><PeopleIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Manage Users" }  />
             </ListItem>
+            }
             <ListItem className={classes.item} onClick={reloadPWA} >
                 <Avatar variant="square" className={classes.square} ><ReplayIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Reload App" }  />

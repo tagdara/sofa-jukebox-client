@@ -21,6 +21,12 @@ export default function UserProvider(props) {
     const { getJSON, addSubscriber, logout, user } = useContext(NetworkContext);
     const [ spotifyUser, setSpotifyUser ]=useState({})
 
+    function isAdmin() {
+        var matchingUsers = userData.users.filter(userObj => userObj.name === user)
+        if (matchingUsers.length<1) return false
+        return matchingUsers[0].admin
+    }
+
     useEffect(() => {
        addSubscriber(userDispatch)
     // eslint-disable-next-line 
@@ -51,6 +57,7 @@ export default function UserProvider(props) {
                 spotifyUser: spotifyUser,
                 setSpotifyUser: setSpotifyUser,
                 user: user,
+                isAdmin: isAdmin,
             }}
         >
             {props.children}

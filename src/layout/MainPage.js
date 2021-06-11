@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         margin: "0 auto",
         padding: 0,
         height: "100%",
-        flexDirection: "column",
+        flexDirection: "row",
     },
     mobileGrid: {
         flexWrap: "nowrap",

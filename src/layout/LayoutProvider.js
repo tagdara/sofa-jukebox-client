@@ -12,10 +12,11 @@ export default function LayoutProvider(props) {
     const halfHeight = height ? height / 2 : '50vh' 
     const heights={ headerHeight: headerHeight, blockHeight: isWide ? height : halfHeight, bodyHeight: height-headerHeight-5, scrollHeight: isWide ? height - 64 : halfHeight, halfHeight: halfHeight, height: height }
     const ios = navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)    
-    const [ showSearch, setShowSearch ]=useState(true)
+
     const [ listMode, setListMode ]=useState('queue')
     const [ snackbarMessage, setSnackbarMessage]=useState("")
     const [ showSnackbar, setShowSnackbar]=useState(false)
+    const showExpanded = listMode !== 'queue'
 
     return (
         <LayoutContext.Provider
@@ -23,8 +24,7 @@ export default function LayoutProvider(props) {
                 isWide: isWide,
                 heights: heights,
                 ios: ios,
-                showSearch: showSearch,
-                setShowSearch: setShowSearch,
+                showExpanded: showExpanded,
                 setHeaderHeight: setHeaderHeight,
 
                 listMode: listMode,

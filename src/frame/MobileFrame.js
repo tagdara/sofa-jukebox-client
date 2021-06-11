@@ -9,6 +9,7 @@ import { PlaylistContext } from 'playlist/PlaylistProvider';
 
 import Grid from '@material-ui/core/Grid';
 import Queues from 'queue/Queues';
+import QueueAddButton from 'queue/QueueAddButton';
 import SearchBox from 'search/SearchBox';
 import SearchSelect from 'search/SearchSelect';
 import SearchResultsOrSuggestions from 'search/SearchResultsOrSuggestions';
@@ -21,9 +22,6 @@ import SpeakerList from 'speaker/SpeakerList'
 import ReturnBar from 'frame/ReturnBar'
 import PreviewPlaylist from 'playlist/PreviewPlaylist';
 import { Scrollbar } from 'react-scrollbars-custom';
-
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
     mainFrame: {
@@ -59,11 +57,6 @@ const useStyles = makeStyles(theme => ({
         boxSizing: "border-box",
         overflow: "hidden",
         justifyContent: "flex-start",   
-    },   
-    addMusicButton: {
-        position: "fixed",
-        bottom: 16,
-        right: 16,
     }
 }));
 
@@ -166,12 +159,12 @@ export default function MobileFrame(props) {
                     </>
                 }
                 { listMode==="queue" &&
+                    <>
                     <Scrollbar style={{ width: "100%" }} onScroll={ handleScroll } >
                         <Queues pickListMode={pickListMode} scrollUnfold={scrollUnfold} />
-                        <Fab color="primary" aria-label="add" onClick={()=> setListMode('search')} className={classes.addMusicButton} >
-                            <AddIcon />
-                        </Fab>
                     </Scrollbar>
+                    <QueueAddButton />
+                    </>
                 }
                 { listMode==="devices" &&
                     <Scrollbar style={{ width: "100%" }}  >

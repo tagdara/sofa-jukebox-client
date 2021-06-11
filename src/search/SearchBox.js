@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 export default function SearchBox(props) {
     
     const classes = useStyles();
-    const { setListMode } = useContext(LayoutContext);
+    const { setListMode, setShowSearch } = useContext(LayoutContext);
     const { searchText, setSearchText, search } = useContext(SearchContext);
     const searchRef = useRef();
 
@@ -86,7 +86,7 @@ export default function SearchBox(props) {
                 autoFocus
                 ref={ searchRef }
             />
-            <IconButton size={"small"} onClick={ ()=> { setListMode('queue') } }><ClearIcon /></IconButton>
+            <IconButton size={"small"} onClick={ ()=> { setListMode('queue'); } }><ClearIcon /></IconButton>
         </Paper>
   );
 }

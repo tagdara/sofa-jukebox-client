@@ -59,7 +59,7 @@ export default function PreviousPicks(props) {
         if (searchType === 'recent') {
             return [ ...previousPicks.tracks ].reverse()
         } 
-        if (searchType === 'popular') {
+        if (searchType === 'popular' && previousPicks && previousPicks.tracks) {
             var popPicks=previousPicks.tracks.filter(pick => pick.count > 1);
             return [...popPicks].sort((a, b) => (a.count > b.count) ? 1 : -1).reverse()
         }

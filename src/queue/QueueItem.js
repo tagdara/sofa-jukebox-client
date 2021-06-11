@@ -2,17 +2,11 @@ import React, { useContext } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { UserContext } from 'user/UserProvider';
-import IconButton from '@material-ui/core/IconButton';
-import PromoteIcon from '@material-ui/icons/VerticalAlignTop';
-import SuperPromoteIcon from '@material-ui/icons/Publish';
 
-import RadioIcon from '@material-ui/icons/Radio';
-import ClearIcon from '@material-ui/icons/Clear';
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import classNames from 'classnames';
-
 
 const useStyles = makeStyles(theme => ({
 
@@ -95,20 +89,9 @@ function QueueItem(props) {
     const user = userById(props.track.user)
     const userName = user ? user.name : undefined
     
-    function promoteOrSuperPromote(track, idx) {
-
-        if (idx===0) { return null }
-        if (props.promoteTrack!==undefined) {
-            if (track.hasOwnProperty('promoted') & track.promoted) {
-                if (props.superPromoteTrack!==undefined) {
-                    return <IconButton className={classes.button} size={"small"} onClick={ ()=> props.superPromoteTrack(track.id) }><SuperPromoteIcon /></IconButton>
-                } 
-            } else {
-                return <IconButton className={classes.button} size={"small"} onClick={ ()=> props.promoteTrack(track.id) }><PromoteIcon /></IconButton>
-            }
-        }
-            
-        return null
+    function highlight() {
+        props.popup(props.track)
+        props.setHighlight(props.track.id)
     }
 
     return (
@@ -117,20 +100,11 @@ function QueueItem(props) {
                                     props.track.promoted && classes.promoted, 
                                     props.highlight && classes.highlight, 
                                     props.user ? classes.userQueue : classes.backupQueue
-                    )} onClick={ () => props.setHighlight(props.track.id) }>
+                    )} onClick={ highlight }>
             <Avatar variant="square" className={props.backup ? classes.dark : classes.square} src={props.track.art} />
             <ListItemText   className={classes.itemtext} classes={{ primary: classes.nowrap, secondary: classes.nowrap }} 
                             primary={ props.track.name } secondary={ props.track.artist } />
             { userName && <Avatar className={classes.user} >{ userName[0].toUpperCase() }</Avatar> }
-            { props.highlight &&
-            <>
-                {promoteOrSuperPromote(props.track, props.index) }
-                <IconButton className={classes.button} size={"small"} onClick={ ()=> props.addRadioTracks(props.track.id) }><RadioIcon /></IconButton>
-                { props.remove!==undefined &&
-                    <IconButton className={classes.button} size={"small"} onClick={()=>props.remove(props.track.id)}><ClearIcon /></IconButton>
-                }
-            </>
-            }
         </ListItem>
     );
 }

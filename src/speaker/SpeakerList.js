@@ -17,7 +17,7 @@ export default function SpeakerList(props) {
 
     const classes = useStyles();
     const { speakers, changeInput, changePower, changeVolume } = useContext(SpeakerContext);
-
+    
     return (
         <List className={classes.nopad} >
             { speakers.map( speaker => 

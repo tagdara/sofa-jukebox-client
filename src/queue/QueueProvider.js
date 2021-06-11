@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, createContext, useReducer } from 'react';
 import { NetworkContext } from 'network/NetworkProvider';
+import { LayoutContext } from 'layout/LayoutProvider';
 
 export const QueueContext = createContext();
 
@@ -40,9 +41,10 @@ export const queueReducer = (state, data) => {
 
 export default function QueueProvider(props) {
     
-    const initialState={ "user": [], "backup": [], "preview": [] }
+    const initialState={ "user": {}, "backup": {}, "preview": {} }
     const [ data, dataDispatch] = useReducer(queueReducer, initialState);
     const { getJSON, addSubscriber } = useContext(NetworkContext);
+    const { setListMode } = useContext(LayoutContext);
     
     useEffect(() => {
         addSubscriber(dataDispatch)
@@ -55,14 +57,18 @@ export default function QueueProvider(props) {
     }, []);
 
     function checkTrackInQueue(id) {
-        for (var i = 0; i < data.user.tracks.length; i++) {
-            if (data.user.tracks[i].id===id) {
-                return 'user'
+        if (data.user.tracks) {
+            for (var i = 0; i < data.user.tracks.length; i++) {
+                if (data.user.tracks[i].id===id) {
+                    return 'user'
+                }
             }
         }
-        for (i = 0; i < data.backup.tracks.length; i++) {
-            if (data.backup.tracks[i].id===id) {
-                return 'backup'
+        if (data.backup.tracks) {
+            for (i = 0; i < data.backup.tracks.length; i++) {
+                if (data.backup.tracks[i].id===id) {
+                    return 'backup'
+                }
             }
         }
         return false
@@ -70,9 +76,7 @@ export default function QueueProvider(props) {
 
     function setBackupList(playlist) {
         getJSON('setbackup/'+playlist).then(result=>dataDispatch({"backup":result}))
-    //    setBackup(true)
-        //setListMode('queue')
-        //setBarMode(true)
+        setListMode('queue')
     }
 
     function removeTrack(id) {
@@ -82,25 +86,23 @@ export default function QueueProvider(props) {
     
     function addTrack(id) {
         getJSON('add/'+id).then(result=>dataDispatch(result))
-        //setBarMode(true)
+
     }
     
     function addRadioTracks(id) {
         getJSON('radio/'+id).then(result=>dataDispatch(result))
-        //setListMode('queue')
-        //setBarMode(true)
+        setListMode('queue')
+
     }
 
     function clearQueue(id) {
         getJSON('queue/clear').then(result=>dataDispatch(result))
-        //setBarMode(true)
     }
     
     function shuffleBackupList() {
         console.log('Shuffling backup tracks')
         getJSON('backup/shuffle').then(result=>dataDispatch({"backup":result}))
-        //setListMode('queue')
-        //setBarMode(true)
+        setListMode('queue')
     }   
     
     function promoteTrack(id) {
