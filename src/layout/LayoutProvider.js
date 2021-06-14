@@ -17,6 +17,7 @@ export default function LayoutProvider(props) {
     const [ snackbarMessage, setSnackbarMessage]=useState("")
     const [ showSnackbar, setShowSnackbar]=useState(false)
     const showExpanded = listMode !== 'queue'
+    const bottomHeight = window.innerHeight - headerHeight
 
     return (
         <LayoutContext.Provider
@@ -26,6 +27,7 @@ export default function LayoutProvider(props) {
                 ios: ios,
                 showExpanded: showExpanded,
                 setHeaderHeight: setHeaderHeight,
+                bottomHeight: bottomHeight,
 
                 listMode: listMode,
                 setListMode: setListMode,

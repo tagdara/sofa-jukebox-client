@@ -19,6 +19,7 @@ import RadioIcon from '@material-ui/icons/Radio';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import PeopleIcon from '@material-ui/icons/People';
+import BlockIcon from '@material-ui/icons/Block';
 
 const useStyles = makeStyles(theme => ({
 
@@ -48,7 +49,7 @@ export default function ActionList(props) {
 
     const classes = useStyles();
     const { setListMode } = useContext(LayoutContext)
-    const { spotifyUser, isAdmin, logout } = useContext(UserContext);
+    const { user, spotifyUser, isAdmin, logout } = useContext(UserContext);
     const { clearQueue, addRadioTracks, shuffleBackupList } = useContext(QueueContext);
 
     function reloadPWA() {
@@ -60,6 +61,8 @@ export default function ActionList(props) {
         }
         window.location.reload(true)
     }
+
+    console.log('user', user, isAdmin())
  
     return (
         <List className={classes.nopad} >
@@ -101,13 +104,19 @@ export default function ActionList(props) {
                 <ListItemText className={classes.itemtext} primary={ "Manage Users" }  />
             </ListItem>
             }
+            { isAdmin() && 
+            <ListItem className={classes.item} onClick={ () => setListMode('blacklist')}>
+                <Avatar variant="square" className={classes.square} ><PeopleIcon /></Avatar>
+                <ListItemText className={classes.itemtext} primary={ "Blacklist" }  />
+            </ListItem>
+            }
             <ListItem className={classes.item} onClick={reloadPWA} >
                 <Avatar variant="square" className={classes.square} ><ReplayIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Reload App" }  />
             </ListItem>
             <ListItem className={classes.item} onClick={logout} >
                 <Avatar variant="square" className={classes.square} ><ExitToAppIcon /></Avatar>
-                <ListItemText className={classes.itemtext} primary={ "Logout" }  />
+                <ListItemText className={classes.itemtext} primary={ "Logout: " + user }  />
             </ListItem>
             { spotifyUser && 
                 <ListItem className={classes.item} >

@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Login(props) {
     
-    const { login, getStorage, checkToken } = useContext(NetworkContext);
+    const { login, getStorage, checkToken, userInTimeout } = useContext(NetworkContext);
     const [user, setUser] = useState(getStorage('user'))
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
@@ -81,12 +81,17 @@ export default function Login(props) {
     
     useEffect(() => {
         checkToken()
+        if (userInTimeout) {
+            setErrorMessage('You Are In Time Out')
+        }
     // eslint-disable-next-line         
     }, [])    
     
     function confirmToken(result) {
         if (result) {
             setErrorMessage('')
+        } else if (userInTimeout) {
+            setErrorMessage('You Are In Time Out')
         } else {
             setErrorMessage('Incorrect credentials')
         }

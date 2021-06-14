@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
         width: "100%",
         overflow: "hidden",
         padding: 0,
+        zIndex: 900,
     },
     status: {
         textAlign: "center",
@@ -29,8 +30,8 @@ const useStyles = makeStyles(theme => ({
 export default function Queues(props) {
 
     const classes = useStyles();
-    const { heights, setListMode } = useContext(LayoutContext);   
-    const { addRadioTracks, backupQueue, emptyQueue, promoteTrack, removeTrack, superPromoteTrack, userQueue } = useContext(QueueContext);
+    const { bottomHeight, setListMode } = useContext(LayoutContext);   
+    const { backupQueue, emptyQueue, userQueue } = useContext(QueueContext);
     const [ popTrack, setPopTrack ] = useState(undefined)
 
     function closePopup() {
@@ -46,10 +47,8 @@ export default function Queues(props) {
         <List className={classes.list} >
         { !emptyQueue ?
             <>
-                <Queue  queue={userQueue} remove={removeTrack} user={true} addRadioTracks={addRadioTracks} popup={popup} />
-                <Queue  queue={backupQueue} remove={removeTrack} promoteTrack={promoteTrack} superPromoteTrack={superPromoteTrack} 
-                        foldable={props.scrollUnfold ? false : true } backup={true} height={heights.scrollHeight} addRadioTracks={addRadioTracks} 
-                        header={true} popup={popup} />
+                <Queue  queue={userQueue} user={true} popup={popup} height={bottomHeight} />
+                <Queue  queue={backupQueue} backup={true} popup={popup} foldable={props.scrollUnfold ? false : true } header={true} height={bottomHeight} />
             </>
         :
             <>

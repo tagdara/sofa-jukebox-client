@@ -54,6 +54,7 @@ export default function UserList(props) {
     function saveUser(data) {
         if (data.id) {
             // This is an existing user
+            console.log('saving', data)
             postJSON('users/save', data).then(result=> { setUsers(result) })    
         } else {
             postJSON('users/add', data).then(result=> { setUsers(result) })

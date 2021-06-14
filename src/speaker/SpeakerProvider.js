@@ -35,15 +35,15 @@ export default function SpeakerProvider(props) {
 
 
     function changeInput(id, inp) {
-        postJSON('speakers/input', {"id": id, "value": inp}).then(result=> { console.log(result) })    
+        postJSON('speakers/input', {"id": id, "value": inp}).then(result=> { console.log(result); speakerDispatch(result) })    
     }
     
     function changePower(id, power) {
-        postJSON('speakers/power', {"id": id, "value": power}).then(result=> { console.log(result) })    
+        postJSON('speakers/power', {"id": id, "value": power}).then(result=> { console.log(result); speakerDispatch(result) })    
     }
 
     function changeVolume(id, volume) {
-        postJSON('speakers/volume', {"id": id, "value": volume}).then(result=> { console.log(result) })    
+        postJSON('speakers/volume', {"id": id, "value": volume}).then(result=> { console.log(result); speakerDispatch(result) })    
     }
     
     return (

@@ -112,6 +112,7 @@ export default function NetworkProvider(props) {
     const [refreshToken, setRefreshToken]= useState(null);
     const [accessToken, setAccessToken]= useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [ userInTimeout, setUserInTimeout] = useState(false)
 
     useEffect(() => {
 
@@ -142,7 +143,11 @@ export default function NetworkProvider(props) {
         if (!response.ok) {
             console.log('Error connecting', response.status, response.statusText)
             setConnectError(true)
-            return { "error": response.statusText }
+            if (response.status === 451) {
+                setLoggedIn(false)
+                setUserInTimeout(true)
+            }
+            return { "error": response.statusText, "status": response.status }
         }
         //setLoggedIn(true)
         setConnectError(false)
@@ -194,12 +199,15 @@ export default function NetworkProvider(props) {
     function loginResult(response) {
 
         if (response && response.hasOwnProperty('access_token')) { 
+            console.log('login response', response)
             setAccessToken(response.access_token)
             setStreamToken(response.access_token)
+            setUserInTimeout(false)
             setLoggedIn(true)
             return response 
+        } else if ( response && response.hasOwnProperty('status') && response.status === 451 ) {
+            setUserInTimeout(true)
         }
-        
         setLoggedIn(false)
         return null
     }
@@ -278,6 +286,7 @@ export default function NetworkProvider(props) {
                 accessToken: accessToken,
                 loggedIn: loggedIn,
                 checkToken: checkToken,
+                userInTimeout: userInTimeout,
             }}
         >
             {props.children}

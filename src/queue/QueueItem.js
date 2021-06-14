@@ -94,13 +94,17 @@ function QueueItem(props) {
         props.setHighlight(props.track.id)
     }
 
+    //onClick={ highlight }
+
     return (
         <ListItem   key={props.track.selection_tracker ? props.track.selection_tracker : props.track.id} 
                     className={ classNames( classes.base,
                                     props.track.promoted && classes.promoted, 
                                     props.highlight && classes.highlight, 
                                     props.user ? classes.userQueue : classes.backupQueue
-                    )} onClick={ highlight }>
+                    )} 
+                    onClick={ highlight }
+                >
             <Avatar variant="square" className={props.backup ? classes.dark : classes.square} src={props.track.art} />
             <ListItemText   className={classes.itemtext} classes={{ primary: classes.nowrap, secondary: classes.nowrap }} 
                             primary={ props.track.name } secondary={ props.track.artist } />

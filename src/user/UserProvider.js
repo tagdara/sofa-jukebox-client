@@ -22,10 +22,17 @@ export default function UserProvider(props) {
     const [ spotifyUser, setSpotifyUser ]=useState({})
 
     function isAdmin() {
-        var matchingUsers = userData.users.filter(userObj => userObj.name === user)
+        var matchingUsers = userData.users.filter(userObj => userObj.name.toLowerCase() === user.toLowerCase())
         if (matchingUsers.length<1) return false
         return matchingUsers[0].admin
     }
+
+    function inTimeout() {
+        var matchingUsers = userData.users.filter(userObj => userObj.name.toLowerCase() === user.toLowerCase())
+        if (matchingUsers.length < 1) return false
+        return matchingUsers[0].timeout
+    }
+
 
     useEffect(() => {
        addSubscriber(userDispatch)
@@ -58,6 +65,7 @@ export default function UserProvider(props) {
                 setSpotifyUser: setSpotifyUser,
                 user: user,
                 isAdmin: isAdmin,
+                inTimeout: inTimeout,
             }}
         >
             {props.children}

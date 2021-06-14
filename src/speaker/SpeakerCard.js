@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
@@ -68,10 +68,15 @@ const useStyles = makeStyles(theme => ({
 export default function SpeakerCard(props) {
 
     const classes = useStyles();
-    const volume = props.speaker.vol
+    const [ volume, setVolume] = useState(props.speaker.vol_percent)
     const on = props.speaker.power === "on"
 //    const mute = props.speaker.mute === "on"
     const label = props.speaker.name.endsWith(' Speakers') ? props.speaker.name.replace(' Speakers','') : props.speaker.name
+
+    useEffect(() => {
+        setVolume(props.speaker.vol_percent)
+    // eslint-disable-next-line 
+    }, [ props.speaker ]);
 
     function changePower(event) {
         console.log('event.target', event.target.value)
@@ -89,6 +94,7 @@ export default function SpeakerCard(props) {
     }
 
     function changeVolume(event, volumeValue) {
+        setVolume(volumeValue)
         console.log('volume event.target', event.target.value)
         //var volumeValue = event.target.value
         props.changeVolume(props.speaker.id, volumeValue)
@@ -107,12 +113,12 @@ export default function SpeakerCard(props) {
             <div className={classes.volumeLine} >
                 <Slider
                     onChangeCommitted = { changeVolume }
-                    defaultValue={ volume }
+                    value={ volume }
                     valueLabelDisplay="auto"
-                    step={10}
+                    step={props.speaker.max_volume_percent ? props.speaker.max_volume_percent / 10 : 10 }
                     marks
                     min={0}
-                    max={100}
+                    max={props.speaker.max_volume_percent ? props.speaker.max_volume_percent : 100}
                     disabled = { !on }
                 />
             </div>

@@ -72,9 +72,10 @@ export default function UserEditor(props) {
     const [ userName, setUserName ] = useState(user.name)
     const [ userEmail, setUserEmail ] = useState(user.email)
     const [ userAdmin, setUserAdmin ] = useState(user.admin)
+    const [ userTimeout, setUserTimeout ] = useState(user.timeout)
 
     function saveChanges() {
-        var userData = { ...user, "name": userName, "email": userEmail, "admin": userAdmin }
+        var userData = { ...user, "name": userName, "email": userEmail, "admin": userAdmin, "timeout": userTimeout }
         if (userPin && userPin.length>3) { userData.password = userPin }
         props.save(userData)
         props.close()
@@ -86,6 +87,23 @@ export default function UserEditor(props) {
         }
         props.close()
     }
+
+    function toggleTimeout() {
+        let timeoutTime = ""
+        if (!userTimeout) {
+            timeoutTime = new Date();
+            timeoutTime = addHoursToDate(timeoutTime, 1).toISOString()
+        }
+        setUserTimeout(timeoutTime)
+        var userData = { ...user, "name": userName, "timeout": timeoutTime }
+        props.save(userData)
+    }
+
+    function addHoursToDate(date: Date, hours: number): Date {
+        return new Date(new Date(date).setHours(date.getHours() + hours));
+    }
+      
+    console.log('userTimeout', userTimeout)
 
     return (
         <List className={classes.nopad} >
@@ -118,6 +136,16 @@ export default function UserEditor(props) {
             <ListItem className={classes.inputLine}>
                 <ListItemText className={classes.input} primary={"Admin"} />
                 <Checkbox checked={userAdmin} onChange={(e) => setUserAdmin( e.target.checked )} color="default" inputProps={{ 'aria-label': 'admin' }}/>
+            </ListItem> 
+
+            <ListItem className={classes.inputLine}>
+                <ListItemText className={classes.input} primary={"Admin"} />
+                <Checkbox checked={userAdmin} onChange={(e) => setUserAdmin( e.target.checked )} color="default" inputProps={{ 'aria-label': 'admin' }}/>
+            </ListItem> 
+
+            <ListItem className={classes.inputLine}>
+                <ListItemText className={classes.input} primary={"Timeout"} />
+                <Button variant="contained" className={classes.button} onClick={toggleTimeout}>{ userTimeout ? "Release" : "Put in Timeout"}</Button>
             </ListItem> 
 
             <ListItem className={classes.centerRow}>

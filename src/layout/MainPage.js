@@ -47,7 +47,7 @@ export default function MainPage() {
 
     const classes = useStyles();  
     const { isWide } = useContext(LayoutContext);
-    const { loggedIn } = useContext(NetworkContext)
+    const { loggedIn} = useContext(NetworkContext)
 
     return (
         loggedIn ? 

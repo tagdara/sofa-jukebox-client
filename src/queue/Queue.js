@@ -43,14 +43,13 @@ function Queue(props) {
         <>
             { (props.header && getFoldableItems().length>0) && <QueueHeader queue={props.queue} /> }
             { getFoldableItems().map((track,idx) =>
-            <QueueItem  key={track.selection_tracker ? track.selection_tracker : track.id} track={track} index={idx} highlight={ highlight===track.id } remove={props.remove} 
-                        promoteTrack={props.promoteTrack} superPromoteTrack={props.superPromoteTrack} addRadioTracks={props.addRadioTracks}
+                <QueueItem  key={track.selection_tracker ? track.selection_tracker : track.id} track={track} index={idx} highlight={ highlight===track.id }
                         setHighlight={setHighlight} backup={props.backup} user={props.user} popup={props.popup} />
             )}
-            { (props.foldable && props.queue.length>5 ) && 
+            { (props.foldable && props.queue && props.queue.tracks.length>5 ) && 
                 <ListItem>
                     { folded ?
-                        <Button className={classes.bigButton} onClick={( ) => setFolded(false) } >Show all {props.queue.length} backup tracks</Button>
+                        <Button className={classes.bigButton} onClick={( ) => setFolded(false) } >Show all {props.queue.tracks.length} backup tracks</Button>
                     :
                         <Button className={classes.bigButton} onClick={( ) => setFolded(true) } >Hide extra backup tracks</Button>
                     }

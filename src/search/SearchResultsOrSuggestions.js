@@ -5,9 +5,9 @@ import PreviousPicks from 'search/PreviousPicks'
 
 export default function SearchResultsOrSuggestions(props) {
 
-    const { searchResults } = useContext(SearchContext);
+    const { searchText, searchResults } = useContext(SearchContext);
 
-    return ( searchResults.length ?
+    return ( (searchText.length || searchResults.length) ?
             <SearchResults />
         :
             <PreviousPicks />

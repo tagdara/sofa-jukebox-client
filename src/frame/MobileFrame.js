@@ -21,6 +21,7 @@ import UserList from 'user/UserList'
 import SpeakerList from 'speaker/SpeakerList'
 import ReturnBar from 'frame/ReturnBar'
 import PreviewPlaylist from 'playlist/PreviewPlaylist';
+import BlackList from 'blacklist/BlackList'
 import { Scrollbar } from 'react-scrollbars-custom';
 
 const useStyles = makeStyles(theme => ({
@@ -65,11 +66,11 @@ export default function MobileFrame(props) {
   
     const { heights, listMode, setListMode, } = useContext(LayoutContext);
     const classes = useStyles(heights);
-    const { spotifyUser } = useContext(UserContext);
+    const { spotifyUser, inTimeout } = useContext(UserContext);
     const { preview } = useContext(PlaylistContext);
     const { addThisTrackToPlaylist } = useContext(NowPlayingContext);
     const { addRadioTracks, setBackupList } = useContext(QueueContext);
-    const [ scrollUnfold, setScrollUnfold]=useState(false)
+    const [ scrollUnfold, setScrollUnfold] = useState(false)
     const [ shrinkTop, setShrinkTop] = useState(false)
     const [ searchFocus, setSearchFocus ] = useState(true)
     const smallHeader = (listMode !== "queue" || shrinkTop === true ) // Add more small reasons here if needed
@@ -78,9 +79,6 @@ export default function MobileFrame(props) {
         setScrollUnfold(false) 
     }, [ listMode ] ); 
     
-    function pickListMode() {
-        setListMode("playlists")
-    }
 
     function handleScroll(e) {
         const bottom = e.scrollHeight - e.scrollTop === e.clientHeight;
@@ -103,6 +101,14 @@ export default function MobileFrame(props) {
     function bigTop() {
         setScrollUnfold(false)
         setShrinkTop(false)
+    }
+
+    if (inTimeout()) {
+        return (
+        <Grid item xs={12} className={classes.scrollBlock}>
+            <div>Sorry, you're in timeout</div>
+        </Grid>
+        )
     }
 
     return (
@@ -161,7 +167,7 @@ export default function MobileFrame(props) {
                 { listMode==="queue" &&
                     <>
                     <Scrollbar style={{ width: "100%" }} onScroll={ handleScroll } >
-                        <Queues pickListMode={pickListMode} scrollUnfold={scrollUnfold} />
+                        <Queues scrollUnfold={scrollUnfold} />
                     </Scrollbar>
                     <QueueAddButton />
                     </>
@@ -170,6 +176,14 @@ export default function MobileFrame(props) {
                     <Scrollbar style={{ width: "100%" }}  >
                         <Devices />
                     </Scrollbar>
+                }
+                { listMode==="blacklist" &&
+                    <>
+                        <ReturnBar label={"Blocked terms"}/>
+                        <Scrollbar style={{ width: "100%" }}  >
+                            <BlackList />
+                        </Scrollbar>
+                    </>
                 }
                 { listMode==="addtoplaylist" &&
                     <Scrollbar style={{ width: "100%" }}  >
