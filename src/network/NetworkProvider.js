@@ -71,8 +71,19 @@ export const useStream = () => {
 
     const errorHandler = () => {
         console.log('ERROR with EventSource')
+        reloadPWA()
         //setConnected(false)
         //connectStream()
+    }
+
+    function reloadPWA() {
+        
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.unregister();
+            });
+        }
+        window.location.reload(true)
     }
 
     const dataHandler = event => {
@@ -109,9 +120,9 @@ export default function NetworkProvider(props) {
     const [ online, setOnline] = useState(false);
     const { streamConnected, streamStatus, addSubscriber, connectStream, setStreamToken } = useStream([])
     const [ user, setUser] = useState(null);
-    const [refreshToken, setRefreshToken]= useState(null);
-    const [accessToken, setAccessToken]= useState(null);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [ refreshToken, setRefreshToken ]= useState(null);
+    const [ accessToken, setAccessToken ]= useState(null);
+    const [ loggedIn, setLoggedIn ] = useState(false);
     const [ userInTimeout, setUserInTimeout] = useState(false)
 
     useEffect(() => {
@@ -199,7 +210,6 @@ export default function NetworkProvider(props) {
     function loginResult(response) {
 
         if (response && response.hasOwnProperty('access_token')) { 
-            console.log('login response', response)
             setAccessToken(response.access_token)
             setStreamToken(response.access_token)
             setUserInTimeout(false)
@@ -208,6 +218,11 @@ export default function NetworkProvider(props) {
         } else if ( response && response.hasOwnProperty('status') && response.status === 451 ) {
             setUserInTimeout(true)
         }
+        setRefreshToken(null)
+        setAccessToken(null)
+        setStreamToken(null)
+        localStorage.setItem("access_token", null)
+        localStorage.setItem("refresh_token", null)
         setLoggedIn(false)
         return null
     }
@@ -221,12 +236,14 @@ export default function NetworkProvider(props) {
     }
 
     function checkToken() {
+        var cachedUser = getStorage('user')
         setRefreshToken(getStorage('refresh_token'))
-        setUser(getStorage('user'))
-        var data={"user":getStorage('user'), "refresh_token": getStorage('refresh_token')}
+        setUser(cachedUser)
+
+        var data={"user": cachedUser, "refresh_token": getStorage('refresh_token')}
   	    return postJSON('auth', data, true)
  		            .then(result=>loginResult(result))
-                    .then(result=>setTokenStorage(getStorage('user'), result))
+                    .then(result=>setTokenStorage(cachedUser, result))
     }
 
 
@@ -263,7 +280,9 @@ export default function NetworkProvider(props) {
     }
     
     function getStorage(item) {
-        return localStorage.getItem(item)
+        var value = localStorage.getItem(item)
+        if (value === "null") { console.log(item, 'is null', value); value = null }
+        return value
     }
     
     return (

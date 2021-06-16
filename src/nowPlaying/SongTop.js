@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "row",
         width: "100%",
-        padding: "8px 8px 16px 8px",
+        padding: "8px 8px 8px 8px",
         boxSizing: "border-box",
     },
     largeTop: {
@@ -41,15 +41,15 @@ export default function SongTop(props) {
     const { isPlaying, playbackControl, nowPlaying } = useContext(NowPlayingContext);
 
     return (
-            <div className={ props.small ? classes.smallTop : classes.largeTop  } >
-                <CoverArt nowPlaying={ nowPlaying } small={props.small } onClick={props.coverClick} />
-                <TitleAndArtist nowPlaying={ nowPlaying } small={props.small } />
-                { props.small && <PlayPauseSkip /> }
-                { !props.small && 
-                    <SongProgressBar    position={nowPlaying.position} 
-                                        duration={nowPlaying.length} isPlaying={isPlaying} playbackControl={playbackControl} /> 
-                }
-            </div>
+        <div className={ props.small ? classes.smallTop : classes.largeTop  } >
+            <CoverArt nowPlaying={ nowPlaying } small={props.small } onClick={props.coverClick} />
+            <TitleAndArtist nowPlaying={ nowPlaying } small={props.small } />
+            { props.small && <PlayPauseSkip /> }
+            { !props.small && 
+                <SongProgressBar    position={nowPlaying.position} 
+                                    duration={nowPlaying.length} isPlaying={isPlaying} playbackControl={playbackControl} /> 
+            }
+        </div>
     )
 }
 

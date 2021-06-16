@@ -62,8 +62,6 @@ export default function ActionList(props) {
         window.location.reload(true)
     }
 
-    console.log('user', user, isAdmin())
- 
     return (
         <List className={classes.nopad} >
             <ListItem className={classes.item} onClick={ () => { shuffleBackupList(); setListMode('queue') }  }>

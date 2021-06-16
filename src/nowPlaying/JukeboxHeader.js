@@ -2,14 +2,11 @@ import React, { useContext, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Collapse from '@material-ui/core/Collapse';
-
-import { DeviceContext } from 'device/DeviceProvider';
 import { NowPlayingContext } from 'nowPlaying/NowPlayingProvider';
 import { UserContext } from 'user/UserProvider';
 import { LayoutContext } from 'layout/LayoutProvider';
 
 import AuthLine from 'spotify/AuthLine';
-import DeviceLine from 'device/DeviceLine';
 import SongTop from 'nowPlaying/SongTop';
 import PlayBar from 'nowPlaying/PlayBar';
 
@@ -18,10 +15,9 @@ const useStyles = makeStyles(theme => ({
     grayBlock: {
         flexGrow: 1,
         maxWidth: "100%",
-        //height: "100%",
         display: "flex",
         flexDirection: "column",
-        padding: "8px 8px 0px 8px",
+        padding: 8,
         backgroundColor: theme.palette.background.paper,
         borderRadius: 8,
         boxSizing: "border-box",
@@ -34,8 +30,6 @@ const useStyles = makeStyles(theme => ({
     colorBlock: {
         flexGrow: 1,
         maxWidth: "100%",
-        //height: "100%",
-        minHeight: "30vh",
         display: "flex",
         flexDirection: "column",
         padding: 8,
@@ -108,34 +102,23 @@ export default function JukeboxHeader(props) {
 
     const { isWide, heights, setHeaderHeight, setListMode} = useContext(LayoutContext);
     const classes = useStyles(heights);     
-    const { spotifyUser } = useContext(UserContext)
-    const { device } = useContext(DeviceContext)
+    const { isAdmin, spotifyAuthenticated, spotifyAuthenticating } = useContext(UserContext)
     const { isPlaying, playbackControl, nowPlaying } = useContext(NowPlayingContext);
  
     const headerRef = useRef(null);
     const colorBackground = (nowPlaying && nowPlaying.id)
    
     useEffect(() => {
-        console.log('header height', headerRef.current.offsetHeight)
         setHeaderHeight(headerRef.current.offsetHeight); 
     // eslint-disable-next-line   
     }, [ props.songView, headerRef] ); 
     
-    function selectDevice() {
-        props.setListMode('devices')
-    }
-
-    //<Grid item xs={ 12 } className={ props.small ? classes.smallHeaderBlock : classes.headerBlock }>
-
     return (
         <Collapse collapsedHeight={90} in={!props.small}>
             <div ref={headerRef} className={ colorBackground ? classes.colorBlock : classes.grayBlock }>
                 <SongTop small={( props.small && !isWide) } coverClick={props.coverClick} />
-                { !spotifyUser.id &&              
+                { (isAdmin && !spotifyAuthenticated && !spotifyAuthenticating) &&   
                     <AuthLine />
-                }
-                { !device &&              
-                    <DeviceLine selectDevice={selectDevice} />
                 }
                 { !props.small && 
                     <PlayBar wide={isWide} isPlaying={isPlaying} nowPlaying={nowPlaying} playbackControl={playbackControl} setListMode={setListMode} />

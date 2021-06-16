@@ -19,7 +19,9 @@ export default function UserProvider(props) {
     
     const [ userData, userDispatch] = useReducer(userReducer, initialState);
     const { getJSON, addSubscriber, logout, user } = useContext(NetworkContext);
-    const [ spotifyUser, setSpotifyUser ]=useState({})
+    const [ spotifyUser, setSpotifyUser ]=useState({"type": "authenticating"})
+    const spotifyAuthenticated = (spotifyUser && spotifyUser.id && spotifyUser.type !== "authenticating") ? true : false
+    const spotifyAuthenticating = spotifyUser.type === "authenticating"
 
     function isAdmin() {
         var matchingUsers = userData.users.filter(userObj => userObj.name.toLowerCase() === user.toLowerCase())
@@ -63,6 +65,8 @@ export default function UserProvider(props) {
                 refreshUserData: refreshUserData,
                 spotifyUser: spotifyUser,
                 setSpotifyUser: setSpotifyUser,
+                spotifyAuthenticated: spotifyAuthenticated,
+                spotifyAuthenticating: spotifyAuthenticating,
                 user: user,
                 isAdmin: isAdmin,
                 inTimeout: inTimeout,

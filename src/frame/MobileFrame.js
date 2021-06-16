@@ -101,6 +101,7 @@ export default function MobileFrame(props) {
     function bigTop() {
         setScrollUnfold(false)
         setShrinkTop(false)
+        setListMode('queue')
     }
 
     if (inTimeout()) {
@@ -173,9 +174,12 @@ export default function MobileFrame(props) {
                     </>
                 }
                 { listMode==="devices" &&
-                    <Scrollbar style={{ width: "100%" }}  >
-                        <Devices />
-                    </Scrollbar>
+                    <>
+                        <ReturnBar label={"Select a Spotify device"}/>
+                        <Scrollbar style={{ width: "100%" }}  >
+                            <Devices />
+                        </Scrollbar>
+                    </>
                 }
                 { listMode==="blacklist" &&
                     <>

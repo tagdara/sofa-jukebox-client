@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LayoutContext } from 'layout/LayoutProvider';
 
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
 
 const useStyles = makeStyles(theme => ({
 
@@ -17,14 +18,18 @@ const useStyles = makeStyles(theme => ({
         filter: "drop-shadow(0px 4px 8px rgba(0,0,0,.4)) drop-shadow(0px 6px 20px rgba(0,0,0,.4));",
     },
     largeIcon: {
+        border: "1px solid #000",
         flexGrow: 1,
         maxHeight: heights => heights.halfHeight - 141,
-        height: "50%",
+        height: "auto",
+        minHeight: 0,
         width: "auto",
         alignSelf: "flex-start",
         margin: "0 auto",
         //color: "#FF4500",
-        color: "#333",
+        boxSizing: "border-box",
+        padding: 32,
+        color: "#000",
     },
     smallCover: {
         height: 50,
@@ -38,7 +43,7 @@ export default function CoverArt(props) {
     const classes = useStyles(heights);
 
     return (
-        (props.nowPlaying && props.nowPlaying.id) ?
+        (props.nowPlaying && props.nowPlaying.id ) ?
             <img
                 className={props.small ? classes.smallCover : classes.largeCover }
                 src={ props.nowPlaying.art }
@@ -47,6 +52,6 @@ export default function CoverArt(props) {
                 onClick={ props.onClick }
             />
         : 
-            <QueueMusicIcon className={props.small ? classes.smallCover : classes.largeIcon  } onClick={ props.onClick } />
+            <MusicNoteIcon className={props.small ? classes.smallCover : classes.largeIcon  } onClick={ props.onClick } />
     )
 }

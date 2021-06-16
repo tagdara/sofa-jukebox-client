@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.primary.main,
     },
     returnBar: {
+        minHeight: 64,
         display: "flex",
         flexGrow: 1,
         padding: "8px 16px",

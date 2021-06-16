@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import { LayoutContext } from 'layout/LayoutProvider';
 import { NetworkContext } from 'network/NetworkProvider';
 
-import DeviceProvider from 'device/DeviceProvider';
 import SearchProvider from 'search/SearchProvider';
 import SpeakerProvider from 'speaker/SpeakerProvider';
 import NowPlayingProvider from 'nowPlaying/NowPlayingProvider';
@@ -51,7 +50,6 @@ export default function MainPage() {
 
     return (
         loggedIn ? 
-                <DeviceProvider>
                     <UserProvider>
                         <PlaylistProvider>
                             <NowPlayingProvider>
@@ -73,7 +71,6 @@ export default function MainPage() {
                             </NowPlayingProvider>
                         </PlaylistProvider>
                     </UserProvider>
-                </DeviceProvider>
         :
             <Login />
     );

@@ -67,7 +67,7 @@ export default function SongProgressBar(props) {
     
     
     return (
-        <PositionSlider value={percent} onChange={handleChange} />  
+        <PositionSlider value={percent} onChangeCommitted = {handleChange} />  
     )
 }
 

@@ -8,10 +8,12 @@ const useStyles = makeStyles(theme => ({
     smallName: {
         width: "100%",
         lineHeight: "1.1",
-        marginBottom:2,
+        marginBottom:4,
         color: "#fff",
         paddingLeft: 8,
         boxSizing: "border-box",
+        maxHeight: 34,
+        overflow: "hidden",
     },
     largeName: {
         whiteSpace: "nowrap",
@@ -45,6 +47,8 @@ const useStyles = makeStyles(theme => ({
         flexWrap: "wrap",
         justifyContent: "center",
         flex: "0 1 auto",
+        height: 72,
+        overflow: "hidden",
     },
     smallTitleBlock: {
         overflow: "hidden",
@@ -66,12 +70,12 @@ export default function TitleAndArtist(props) {
             <Typography variant={ props.small ? "body1" : "h6" } 
                         className={ props.small ? classes.smallName : classes.largeName }
                     >
-                        {(props.nowPlaying && props.nowPlaying.id) ? props.nowPlaying.name : " " }
+                        {(props.nowPlaying && props.nowPlaying.id) ? props.nowPlaying.name : "" }
             </Typography>
             <Typography variant={ props.small ? "body2" : "subtitle1" }  
                         className={ props.small ? classes.smallArtist : classes.largeArtist }
                     >
-                {(props.nowPlaying && props.nowPlaying.id) ? props.nowPlaying.artist : " " }
+                {(props.nowPlaying && props.nowPlaying.id) ? props.nowPlaying.artist : "" }
             </Typography>
         </div>
     )
