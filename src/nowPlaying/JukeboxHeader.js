@@ -116,7 +116,7 @@ export default function JukeboxHeader(props) {
     return (
         <Collapse collapsedHeight={90} in={!props.small}>
             <div ref={headerRef} className={ colorBackground ? classes.colorBlock : classes.grayBlock }>
-                <SongTop small={( props.small && !isWide) } coverClick={props.coverClick} />
+                <SongTop nowPlaying={nowPlaying} small={( props.small && !isWide) } coverClick={props.coverClick} controls={true} />
                 { (isAdmin && !spotifyAuthenticated && !spotifyAuthenticating) &&   
                     <AuthLine />
                 }

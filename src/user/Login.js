@@ -166,7 +166,7 @@ export default function Login(props) {
                 { refreshToken != null  ?
                     <>
                         <ListItem className={classes.inputLine}>
-                            <ListItemText className={classes.input} primary={"Checking access token for " +user} />
+                            <ListItemText className={classes.input} primary={"Connecting " +user} />
                         </ListItem>
                         <ListItem className={classes.inputLine}>
                             <Button color="primary" fullWidth onClick={ ()=> reloadPWA()}>

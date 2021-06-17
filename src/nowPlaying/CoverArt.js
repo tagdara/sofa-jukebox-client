@@ -35,12 +35,18 @@ const useStyles = makeStyles(theme => ({
         height: 50,
         width: 50,
     },
+    userIcon: {
+        position: "absolute",
+        bottom: 4,
+        left: 4,
+    }
 }));
 
 export default function CoverArt(props) {
     
     const { heights } = useContext(LayoutContext);
     const classes = useStyles(heights);
+
 
     return (
         (props.nowPlaying && props.nowPlaying.id ) ?

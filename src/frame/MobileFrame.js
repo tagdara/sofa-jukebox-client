@@ -190,9 +190,11 @@ export default function MobileFrame(props) {
                     </>
                 }
                 { listMode==="addtoplaylist" &&
-                    <Scrollbar style={{ width: "100%" }}  >
+                    <>
+                        <ReturnBar label={"Add to playlist"}/>
                         <Playlists action={ addThisTrackToPlaylist } owned={true}  />
-                    </Scrollbar>
+                    </>
+
                 }
             </div>
             }

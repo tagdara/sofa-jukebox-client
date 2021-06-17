@@ -8,6 +8,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import classNames from 'classnames';
 
+import UserAvatar from 'queue/UserAvatar'
+
 const useStyles = makeStyles(theme => ({
 
     title: {
@@ -108,7 +110,7 @@ function QueueItem(props) {
             <Avatar variant="square" className={props.backup ? classes.dark : classes.square} src={props.track.art} />
             <ListItemText   className={classes.itemtext} classes={{ primary: classes.nowrap, secondary: classes.nowrap }} 
                             primary={ props.track.name } secondary={ props.track.artist } />
-            { userName && <Avatar className={classes.user} >{ userName[0].toUpperCase() }</Avatar> }
+            { userName && <UserAvatar userName={userName} /> }
         </ListItem>
     );
 }
