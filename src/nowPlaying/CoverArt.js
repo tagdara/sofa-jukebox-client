@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { LayoutContext } from 'layout/LayoutProvider';
 
-import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 
 const useStyles = makeStyles(theme => ({

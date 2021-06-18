@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from '@material-ui/core/Grid';
 
 import { LayoutContext } from 'layout/LayoutProvider';
 import { NetworkContext } from 'network/NetworkProvider';
+import { JukeboxThemeContext } from 'theme/JukeboxThemeProvider';
 
 import SearchProvider from 'search/SearchProvider';
 import SpeakerProvider from 'speaker/SpeakerProvider';
@@ -47,9 +48,10 @@ export default function MainPage() {
     const classes = useStyles();  
     const { isWide } = useContext(LayoutContext);
     const { loggedIn} = useContext(NetworkContext)
-
+    const { theme } = useContext(JukeboxThemeContext)
     return (
-        loggedIn ? 
+        <MuiThemeProvider theme={ theme }>
+        { loggedIn ? 
                     <UserProvider>
                         <PlaylistProvider>
                             <NowPlayingProvider>
@@ -73,6 +75,8 @@ export default function MainPage() {
                     </UserProvider>
         :
             <Login />
+        }
+        </MuiThemeProvider>
     );
 }
 

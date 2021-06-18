@@ -15,7 +15,7 @@ export default function UserPicks(props) {
 
     const classes = useStyles();
     const [ userPicks, setUserPicks ] = useState([]);
-    const { getJSON } = useContext(NetworkContext);
+    const { getJSON, user } = useContext(NetworkContext);
 
     useEffect(() => {
         getJSON('user/picks').then(result=>setUserPicks(result))    
@@ -24,7 +24,7 @@ export default function UserPicks(props) {
 
     return (
         <List className={classes.nopad} >
-            { userPicks.map((track) =>
+            { userPicks.slice(-10).map((track) =>
                 <SearchResultItem key={track.id} track={track} popup={props.popup} />
             )}
         </List>

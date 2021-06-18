@@ -58,6 +58,11 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexGrow: 1,
     },
+    reconnect: {
+        display: "flex",
+        flexGrow: 1,
+        justifyContent: "center",
+    },
     inputLine: {
         maxWidth: "80%",
         color: theme.palette.primary.contrastText,
@@ -166,7 +171,7 @@ export default function Login(props) {
                 { refreshToken != null  ?
                     <>
                         <ListItem className={classes.inputLine}>
-                            <ListItemText className={classes.input} primary={"Connecting " +user} />
+                            <ListItemText className={classes.reconnect} primary={"Attempting to connect"} />
                         </ListItem>
                         <ListItem className={classes.inputLine}>
                             <Button color="primary" fullWidth onClick={ ()=> reloadPWA()}>

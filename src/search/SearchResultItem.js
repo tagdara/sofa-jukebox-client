@@ -34,9 +34,6 @@ const useStyles = makeStyles(theme => ({
         width: "100%",
         backgroundColor: theme.palette.background.lowButton,
     },
-    selected: {
-        backgroundColor: theme.palette.background.promoted,
-    },
     placeholder: {
         borderRadius: 8,
         backgroundColor: theme.palette.background.lowButton,
@@ -49,21 +46,14 @@ const useStyles = makeStyles(theme => ({
 export default function SearchResults(props) {
 
     const classes = useStyles();
-    const { checkPrevious } = useContext(SearchContext);
     const { addTrack, checkTrackInQueue, superPromoteTrack } = useContext(QueueContext)
     const track = props.track
 
-    function prevPlays(track) {
-        if (checkPrevious(track.id)>0) {
-            return " ("+checkPrevious(track.id)+")" 
-        } 
-        return ""
-    }
     
     return (
         <ListItem className={ checkTrackInQueue(track.id) ? classes.selected : classes.normal } >
             <Avatar variant="square" className={classes.square} src={track.art} />
-            <ListItemText primary={track.name} secondary={ track.artist + prevPlays(track) } onClick={ ()=> props.popup(track) } />
+            <ListItemText primary={track.name} secondary={ track.artist } onClick={ ()=> props.popup(track) } />
             <ListItemSecondaryAction>
                 { !checkTrackInQueue(track.id) ?
                     <IconButton size={"small"} onClick={()=> addTrack(track.id)}><AddIcon /></IconButton>

@@ -53,8 +53,6 @@ export default function SongTop(props) {
     const user = props.nowPlaying.user ? userById(props.nowPlaying.user) : undefined
     const userName = user ? user.name : undefined
 
-    console.log('nowplay', props.nowPlaying)
-
     return (
         <div className={ props.small ? classes.smallTop : classes.largeTop  } >
             <CoverArt nowPlaying={ props.nowPlaying } small={props.small } onClick={props.coverClick} />

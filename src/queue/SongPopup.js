@@ -12,7 +12,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import RadioIcon from '@material-ui/icons/Radio';
 import ClearIcon from '@material-ui/icons/Clear';
-
+import ShareIcon from '@material-ui/icons/Share';
 import SongTop from 'nowPlaying/SongTop';
 import UserAvatar from 'queue/UserAvatar'
 
@@ -38,6 +38,16 @@ export default function SongPopup(props) {
 
     const user = props.track.user ? userById(props.track.user) : undefined
     const userName = user ? user.name : undefined
+
+    function share(track) {
+        console.log('track', { url: "http://open.spotify.com/track/"+track.id })
+        if (navigator.share) {
+            navigator.share({ url: "http://open.spotify.com/track/"+track.id })
+                .then(() => { console.log('Thanks for sharing!') } )
+                .catch(console.error);
+        } 
+    }
+
 
     function promoteOrSuperPromote(track) {
         //if (idx===0) { return null }
@@ -74,6 +84,11 @@ export default function SongPopup(props) {
                     <ListItem>
                         <Button fullWidth variant="contained" startIcon={<RadioIcon />} onClick={ ()=> { addRadioTracks(props.track.id); props.close() }}>More Like This</Button>
                     </ListItem>    
+                    }
+                    { navigator.share &&      
+                        <ListItem>
+                            <Button fullWidth variant="contained" startIcon={<ShareIcon />} onClick={ ()=> { share(props.track);  props.close() }}>Share</Button>
+                        </ListItem>        
                     }
                     <ListItem>
                         <Button fullWidth variant="contained" startIcon={<ClearIcon />} onClick={ ()=> { removeTrack(props.track.id);  props.close() }}>Remove Track</Button>

@@ -24,10 +24,8 @@ const useStyles = makeStyles(theme => ({
     },
     searchHolder: {
         padding: 16,
-        margin: 0,
+        margin: 4,
         borderRadius: 4,
-        backgroundColor: "#000",
-        width: "100%",
         display: "flex",
         flexDirection: "row",
         flexWrap: "nowrap",
@@ -36,7 +34,6 @@ const useStyles = makeStyles(theme => ({
         margin: 8,
         zIndex: "-2",
         borderRadius: "0px 0px 8px 8px",
-        backgroundColor: theme.palette.primary.superDark,
         padding: 8,
     },
     hold: {

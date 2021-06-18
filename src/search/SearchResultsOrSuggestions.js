@@ -2,9 +2,9 @@ import React, { useContext, useState } from 'react';
 import { SearchContext } from 'search/SearchProvider';
 import SearchResults from 'search/SearchResults'
 import SearchResultPopup from 'search/SearchResultPopup'
-import PopularPicks from 'search/PopularPicks'
 import RecentPicks from 'search/RecentPicks'
 import UserPicks from 'search/UserPicks'
+import SuggestionHeader from 'search/SuggestionHeader'
 
 export default function SearchResultsOrSuggestions(props) {
 
@@ -25,9 +25,10 @@ export default function SearchResultsOrSuggestions(props) {
             <SearchResults popup={popup} />
         :
             <>
-                { searchType === "popular" && <PopularPicks popup={popup} /> }
-                { searchType === "recent" && <RecentPicks popup={popup} /> }
-                { searchType === "user" && <UserPicks popup={popup} /> }
+                <SuggestionHeader text={"Some of your previous choices"}/>
+                <UserPicks popup={popup} />
+                <SuggestionHeader text={"Other recent picks"}/>
+                <RecentPicks popup={popup} filterUser={true} />
             </>
         }
         { popTrack &&

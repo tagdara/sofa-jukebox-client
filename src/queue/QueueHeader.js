@@ -4,10 +4,15 @@ import { LayoutContext } from 'layout/LayoutProvider'
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import ListItem from '@material-ui/core/ListItem';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
 
 export default function QueueHeader(props) {
     
     const { setListMode } = useContext(LayoutContext);
+
+    function clickShuffle() {
+        console.log('shuffle')
+    }
 
     return (
         <ListItem>

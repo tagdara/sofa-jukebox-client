@@ -32,12 +32,6 @@ export default function SearchProvider(props) {
     // eslint-disable-next-line 
     }, []);
 
-    useEffect(() => {
-        getJSON('previous_picks').then(result=>searchDispatch(result))    
-    // eslint-disable-next-line 
-    }, []);
-    
-
     function search(text) {
         setSearchText(text)
         if (text.length<3) {
@@ -47,22 +41,9 @@ export default function SearchProvider(props) {
         }
     };  
 
-    function checkPrevious(id) {
-
-        for (var i = 0; i < searchData.previousPicks['tracks'].length; i++) {
-            if (searchData.previousPicks['tracks'][i].id === id) {
-                return searchData.previousPicks['tracks'][i].count
-            }
-        }
-        return 0
-    }
-
     return (
         <SearchContext.Provider
             value={{
-                previousPicks: searchData.previousPicks,
-                checkPrevious: checkPrevious,
-                
                 searchResults: searchData.searchResults,
                 searchText: searchText,
                 setSearchText: setSearchText,

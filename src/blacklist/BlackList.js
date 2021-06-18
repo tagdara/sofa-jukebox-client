@@ -9,8 +9,6 @@ import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BlockIcon from '@material-ui/icons/Block';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';

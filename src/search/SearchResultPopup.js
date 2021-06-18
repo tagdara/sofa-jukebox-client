@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import RadioIcon from '@material-ui/icons/Radio';
 import AddIcon from '@material-ui/icons/Add';
-
+import ShareIcon from '@material-ui/icons/Share';
 import SongTop from 'nowPlaying/SongTop';
 
 
@@ -33,6 +33,14 @@ export default function SearchResultPopup(props) {
     const { isAdmin } = useContext(UserContext)
     const { addRadioTracks, addTrack } = useContext(QueueContext);
 
+    function share(track) {
+        console.log('track', { url: "http://open.spotify.com/track/"+track.id })
+        if (navigator.share) {
+            navigator.share({ url: "http://open.spotify.com/track/"+track.id })
+                .then(() => { console.log('Thanks for sharing!') } )
+                .catch(console.error);
+        } 
+    }
 
     return (
         <Dialog fullWidth onClose={props.close} open={props.open} className={classes.dialog}>
@@ -46,7 +54,12 @@ export default function SearchResultPopup(props) {
                     }
                     <ListItem>
                         <Button fullWidth variant="contained" startIcon={<AddIcon />} onClick={ ()=> { addTrack(props.track.id);  props.close() }}>Add Track</Button>
-                    </ListItem>        
+                    </ListItem> 
+                    { navigator.share &&      
+                        <ListItem>
+                            <Button fullWidth variant="contained" startIcon={<ShareIcon />} onClick={ ()=> { share(props.track);  props.close() }}>Share</Button>
+                        </ListItem>        
+                    }
                 </List>
             </DialogContent>
             <DialogActions>

@@ -8,7 +8,6 @@ const useStyles = makeStyles(theme => ({
         height: 24,
         width: 24,
         fontSize: 12,
-        border: "solid 1px #000"
     }
     
 }));
@@ -23,8 +22,8 @@ export default function UserAvatar(props) {
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
         }
         var colour = '#';
-        for (var i = 0; i < 3; i++) {
-            var value = (hash >> (i * 8)) & 0xFF;
+        for (var j = 0; j < 3; j++) {
+            var value = (hash >> (j * 8)) & 0xFF;
             colour += ('00' + value.toString(16)).substr(-2);
         }
         return colour;

@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Queues from 'queue/Queues';
 import QueueAddButton from 'queue/QueueAddButton';
 import SearchBox from 'search/SearchBox';
-import SearchSelect from 'search/SearchSelect';
 import SearchResultsOrSuggestions from 'search/SearchResultsOrSuggestions';
 import JukeboxHeader from 'nowPlaying/JukeboxHeader';
 import ActionList from 'action/ActionList';
@@ -129,7 +128,6 @@ export default function MobileFrame(props) {
                 { listMode === "search" &&
                     <>
                         <SearchBox setSearchFocus={setSearchFocus} searchFocus={searchFocus}/>
-                        <SearchSelect />
                         <Scrollbar style={{ width: "100%" }} onScroll={ () => setSearchFocus(false) } >
                             <SearchResultsOrSuggestions />
                         </Scrollbar>

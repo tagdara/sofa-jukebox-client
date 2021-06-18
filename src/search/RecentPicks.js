@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { SearchContext } from 'search/SearchProvider';
+import { NetworkContext } from 'network/NetworkProvider';
+import { UserContext } from 'user/UserProvider';
+
 import List from '@material-ui/core/List';
 import SearchResultItem from 'search/SearchResultItem'
 
@@ -10,15 +12,27 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function RecentPicks(props) {
+export default function UserPicks(props) {
 
     const classes = useStyles();
-    const { previousPicks } = useContext(SearchContext);
+    const [ recentPicks, setRecentPicks ] = useState([]);
+    const { getJSON, user } = useContext(NetworkContext);
+    const { userById } = useContext(UserContext);
+    useEffect(() => {
+        getJSON('recent').then(result=>{ console.log('rec', result); setRecentPicks(result.recent.tracks) } )    
+        // eslint-disable-next-line 
+    }, []);
 
     function sortPicks() {
-        return [ ...previousPicks.tracks ].reverse()
+        if (!recentPicks) { return [] }
+
+        var recent = [ ...recentPicks ]
+        if (props.filterUser) {
+            recent = recent.filter(item => userById(item.user).name !== user)
+        }
+        return recent.reverse().slice(-10)
     }
-    
+
     return (
         <List className={classes.nopad} >
             { sortPicks().map((track) =>

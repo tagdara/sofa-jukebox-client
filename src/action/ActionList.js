@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LayoutContext } from 'layout/LayoutProvider';
 import { QueueContext } from 'queue/QueueProvider'
 import { UserContext }from 'user/UserProvider';
+import { JukeboxThemeContext } from 'theme/JukeboxThemeProvider';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -20,6 +21,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import PeopleIcon from '@material-ui/icons/People';
 import BlockIcon from '@material-ui/icons/Block';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
 
 const useStyles = makeStyles(theme => ({
 
@@ -51,6 +53,7 @@ export default function ActionList(props) {
     const { setListMode } = useContext(LayoutContext)
     const { user, spotifyUser, isAdmin, logout } = useContext(UserContext);
     const { clearQueue, addRadioTracks, shuffleBackupList } = useContext(QueueContext);
+    const { themeName, changeTheme } = useContext(JukeboxThemeContext);
 
     function reloadPWA() {
         
@@ -104,10 +107,14 @@ export default function ActionList(props) {
             }
             { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => setListMode('blacklist')}>
-                <Avatar variant="square" className={classes.square} ><PeopleIcon /></Avatar>
+                <Avatar variant="square" className={classes.square} ><BlockIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Blacklist" }  />
             </ListItem>
             }
+            <ListItem className={classes.item} onClick={changeTheme} >
+                <Avatar variant="square" className={classes.square} ><InvertColorsIcon /></Avatar>
+                <ListItemText className={classes.itemtext} primary={ themeName ==="dark" ? "Change to Light Mode" : "Change to Dark Mode" }  />
+            </ListItem>
             <ListItem className={classes.item} onClick={reloadPWA} >
                 <Avatar variant="square" className={classes.square} ><ReplayIcon /></Avatar>
                 <ListItemText className={classes.itemtext} primary={ "Reload App" }  />

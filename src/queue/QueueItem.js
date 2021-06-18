@@ -6,19 +6,9 @@ import { UserContext } from 'user/UserProvider';
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import classNames from 'classnames';
-
 import UserAvatar from 'queue/UserAvatar'
 
 const useStyles = makeStyles(theme => ({
-
-    title: {
-        flexGrow: 1,
-    },
-    bigButton: {
-        width: "100%",
-        backgroundColor: theme.palette.background.lowButton,
-    },
     square: {
         marginRight: 16,
     },
@@ -31,7 +21,7 @@ const useStyles = makeStyles(theme => ({
         overflow: 'hidden',
         whiteSpace: 'nowrap',
     },
-    itemtext: {
+    itemText: {
         marginTop: 0,
         marginBottom: 0,
         padding: 0,
@@ -39,40 +29,9 @@ const useStyles = makeStyles(theme => ({
         overflow: "hidden",
         textOverflow: 'ellipsis',
     },
-    userQueue: {
-//        backgroundColor: theme.palette.background.userTrack,
-        display: "flex",
-    },
-    backupQueue: {
-        color: theme.palette.text.backupQueue,
+    queueItem: {
         display: "flex",
         overflow: "hidden",
-    },
-    list: {
-        padding: 0,
-        width: "100%",
-        overflow: "hidden",
-    },
-    highlight: {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.background.hover,
-    },
-    base: {
-        '&:hover': {
-            backgroundColor: theme.palette.background.hover,
-            color: theme.palette.primary.contrastText,
-        }        
-    },
-    promoted: {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.background.promoted,
-        '&:hover': {
-            backgroundColor: theme.palette.background.promotedHover,
-            color: theme.palette.primary.contrastText,
-        }     
-    },
-    button: {
-        marginLeft: 4,
     },
     user: {
         height: 24,
@@ -93,22 +52,17 @@ function QueueItem(props) {
     
     function highlight() {
         props.popup(props.track)
-        props.setHighlight(props.track.id)
     }
 
     //onClick={ highlight }
 
     return (
         <ListItem   key={props.track.selection_tracker ? props.track.selection_tracker : props.track.id} 
-                    className={ classNames( classes.base,
-                                    props.track.promoted && classes.promoted, 
-                                    props.highlight && classes.highlight, 
-                                    props.user ? classes.userQueue : classes.backupQueue
-                    )} 
+                    className={classes.queueItem} 
                     onClick={ highlight }
                 >
             <Avatar variant="square" className={props.backup ? classes.dark : classes.square} src={props.track.art} />
-            <ListItemText   className={classes.itemtext} classes={{ primary: classes.nowrap, secondary: classes.nowrap }} 
+            <ListItemText   className={classes.itemText} classes={{ primary: classes.nowrap, secondary: classes.nowrap }} 
                             primary={ props.track.name } secondary={ props.track.artist } />
             { userName && <UserAvatar userName={userName} /> }
         </ListItem>

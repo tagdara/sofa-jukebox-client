@@ -56,7 +56,6 @@ export default function SearchSelect(props) {
     return (
         <Select value={searchType}  onChange={handleSelect} disableUnderline className={classes.select}>
             <MenuItem value={"user"}>Your Picks</MenuItem>
-            <MenuItem value={"popular"}>Popular</MenuItem>
             <MenuItem value={"recent"}>Recent</MenuItem>
         </Select>
     )
