@@ -16,12 +16,12 @@ const useStyles = makeStyles(theme => ({
 export default function SpeakerList(props) {
 
     const classes = useStyles();
-    const { speakers, changeInput, changePower, changeVolume } = useContext(SpeakerContext);
+    const { speakers, changeInput, changePower, changeVolume, changeMaxVolume } = useContext(SpeakerContext);
     
     return (
         <List className={classes.nopad} >
             { speakers.map( speaker => 
-                <SpeakerCard key={speaker.id} speaker={speaker} changeInput={changeInput} changePower={changePower} changeVolume={changeVolume} />
+                <SpeakerCard key={speaker.id} speaker={speaker} changeInput={changeInput} changePower={changePower} changeVolume={changeVolume} changeMaxVolume={changeMaxVolume} />
             )}
         </List>
     )

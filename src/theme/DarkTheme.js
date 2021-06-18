@@ -1,6 +1,7 @@
 import React from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import deepOrange from '@material-ui/core/colors/deepOrange';
+import teal from '@material-ui/core/colors/teal';
 import grey from '@material-ui/core/colors/grey';
 
 const DarkTheme = createMuiTheme({
@@ -21,6 +22,11 @@ const DarkTheme = createMuiTheme({
             light: deepOrange[500],
             main: deepOrange[700],
             dark: deepOrange[900],
+        },
+        admin: {
+            light: teal[500],
+            main: teal[700],
+            dark: teal[900],
         },
         text: {
             primary: "#c0c0c0",

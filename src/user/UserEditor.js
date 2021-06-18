@@ -13,6 +13,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 
+import UserAvatar from 'user/UserAvatar'
+
 const useStyles = makeStyles(theme => ({
 
     nopad: {
@@ -49,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     name: {
         padding: 4,
         flexGrow: 0,
-        backgroundColor: "#444",
+        backgroundColor: theme.palette.background.paper,
         borderRadius: 4,
     },
     userAvatar: {
@@ -72,7 +74,7 @@ export default function UserEditor(props) {
     const [ userName, setUserName ] = useState(user.name)
     const [ userEmail, setUserEmail ] = useState(user.email)
     const [ userAdmin, setUserAdmin ] = useState(user.admin)
-    const [ userTimeout, setUserTimeout ] = useState(user.timeout)
+    const [ userTimeout, setUserTimeout ] = useState(user.admin ? false : user.timeout)
 
     function saveChanges() {
         var userData = { ...user, "name": userName, "email": userEmail, "admin": userAdmin, "timeout": userTimeout }
@@ -108,7 +110,7 @@ export default function UserEditor(props) {
     return (
         <List className={classes.nopad} >
             <ListItem key={user.id} className={classes.centerRow} >
-                <Avatar color="primary" className={classes.userAvatar} >{ userName ? userName[0].toUpperCase() : "?" } </Avatar>
+                <UserAvatar color="primary" userName={userName}/>
             </ListItem> 
 
             <ListItem className={classes.inputLine}>
@@ -139,13 +141,8 @@ export default function UserEditor(props) {
             </ListItem> 
 
             <ListItem className={classes.inputLine}>
-                <ListItemText className={classes.input} primary={"Admin"} />
-                <Checkbox checked={userAdmin} onChange={(e) => setUserAdmin( e.target.checked )} color="default" inputProps={{ 'aria-label': 'admin' }}/>
-            </ListItem> 
-
-            <ListItem className={classes.inputLine}>
                 <ListItemText className={classes.input} primary={"Timeout"} />
-                <Button variant="contained" className={classes.button} onClick={toggleTimeout}>{ userTimeout ? "Release" : "Put in Timeout"}</Button>
+                <Button variant="contained" disabled={userAdmin} className={classes.button} onClick={toggleTimeout}>{ userTimeout ? "Release" : "Put in Timeout"}</Button>
             </ListItem> 
 
             <ListItem className={classes.centerRow}>

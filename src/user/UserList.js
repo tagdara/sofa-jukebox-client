@@ -7,8 +7,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import UserEditor from 'user/UserEditor'
+import UserEditor from 'user/UserEditor';
+import UserAvatar from 'user/UserAvatar';
 
 const useStyles = makeStyles(theme => ({
 
@@ -82,7 +84,9 @@ export default function UserList(props) {
             <List className={classes.nopad} >
                 { users.map( user => 
                     <ListItem key={user.id} className={classes.item} onClick={ () => editUser(user) }>
-                        <Avatar color="primary" className={classes.square} >{  user.name ? user.name[0].toUpperCase() : "?"  } </Avatar>
+                        <ListItemAvatar>
+                            <UserAvatar userName={user.name} />
+                        </ListItemAvatar>
                         <ListItemText className={classes.itemtext} primary={ user.name } />
                     </ListItem> 
                 )}

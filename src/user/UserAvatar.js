@@ -4,12 +4,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles(theme => ({
-    user: {
+    small: {
         height: 24,
         width: 24,
         fontSize: 12,
     }
-    
 }));
 
 export default function UserAvatar(props) {
@@ -35,7 +34,7 @@ export default function UserAvatar(props) {
                     label={"Selected by "+props.userName }
                 />
             :
-                <Avatar style={{ backgroundColor: stringToColor(props.userName) }} className={classes.user} >{ props.userName[0].toUpperCase() }</Avatar> 
+                <Avatar style={{ backgroundColor: stringToColor(props.userName) }} className={props.small && classes.small} >{ props.userName[0].toUpperCase() }</Avatar> 
     );
 }
 

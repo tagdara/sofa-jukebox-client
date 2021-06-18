@@ -45,12 +45,17 @@ export default function SpeakerProvider(props) {
     function changeVolume(id, volume) {
         postJSON('speakers/volume', {"id": id, "value": volume}).then(result=> { console.log(result); speakerDispatch(result) })    
     }
-    
+
+    function changeMaxVolume(id, volume) {
+        postJSON('speakers/volume_max', {"id": id, "value": volume}).then(result=> { console.log(result); speakerDispatch(result) })    
+    }
+
     return (
         <SpeakerContext.Provider
             value={{
                 changeInput: changeInput,
                 changePower: changePower,
+                changeMaxVolume: changeMaxVolume,
                 changeVolume: changeVolume,
                 speakers: speakerData.speakers
             }}

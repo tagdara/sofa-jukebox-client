@@ -14,7 +14,7 @@ import RadioIcon from '@material-ui/icons/Radio';
 import ClearIcon from '@material-ui/icons/Clear';
 import ShareIcon from '@material-ui/icons/Share';
 import SongTop from 'nowPlaying/SongTop';
-import UserAvatar from 'queue/UserAvatar'
+import UserAvatar from 'user/UserAvatar'
 
 const useStyles = makeStyles(theme => ({
 

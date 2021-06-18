@@ -24,9 +24,8 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.lowButton,
     },
     promoted: {
-        backgroundColor: theme.palette.background.promoted,
+        backgroundColor: theme.palette.background.paper,
     }
-
 }))
 
 export default function Devices(props) {

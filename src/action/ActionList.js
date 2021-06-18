@@ -96,7 +96,7 @@ export default function ActionList(props) {
             { isAdmin() && 
             <ListItem className={classes.item} onClick={ () => setListMode('devices')}>
                 <Avatar variant="square" className={classes.square} ><SpeakerIcon /></Avatar>
-                <ListItemText className={classes.itemtext} primary={ "Select Audio Device" }  />
+                <ListItemText className={classes.itemtext} primary={ "Spotify Connect Device" }  />
             </ListItem>
             }
             { isAdmin() && 

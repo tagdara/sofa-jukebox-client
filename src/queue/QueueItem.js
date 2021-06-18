@@ -6,7 +6,8 @@ import { UserContext } from 'user/UserProvider';
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import UserAvatar from 'queue/UserAvatar'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import UserAvatar from 'user/UserAvatar'
 
 const useStyles = makeStyles(theme => ({
     square: {
@@ -64,7 +65,7 @@ function QueueItem(props) {
             <Avatar variant="square" className={props.backup ? classes.dark : classes.square} src={props.track.art} />
             <ListItemText   className={classes.itemText} classes={{ primary: classes.nowrap, secondary: classes.nowrap }} 
                             primary={ props.track.name } secondary={ props.track.artist } />
-            { userName && <UserAvatar userName={userName} /> }
+            { userName && <UserAvatar small={true} userName={userName} /> }
         </ListItem>
     );
 }

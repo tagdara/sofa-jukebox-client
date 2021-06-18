@@ -6,7 +6,7 @@ import SongProgressBar from 'nowPlaying/SongProgressBar';
 import CoverArt from 'nowPlaying/CoverArt'
 import TitleAndArtist from 'nowPlaying/TitleAndArtist'
 import PlayPauseSkip from 'nowPlaying/PlayPauseSkip'
-import UserAvatar from 'queue/UserAvatar'
+import UserAvatar from 'user/UserAvatar'
 
 const useStyles = makeStyles(theme => ({
 

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { UserContext } from 'user/UserProvider';
 
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
@@ -51,9 +51,12 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     inputSelect: {
-        borderRadius: 4,
-        padding: 4,
-        backgroundColor:  theme.palette.background.lowButton,
+        padding: "8px !important",
+        paddingRight: "32px !important",
+        borderRadius: "4px !important",
+//        padding: 2,
+//        marginLeft: 4,
+//        backgroundColor:  theme.palette.background.lowButton,
     },
     speakerCard: {
         margin: 4,
@@ -61,20 +64,50 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 8,
         display: "flex",
         flexDirection: "column",
+    },
+    onSpeakerBlock: {
+        margin: 4,
+        marginBottom: 16,
+        padding: "0 8px 8px 8px",
+        borderLeft: 4,
+        borderLeftColor: theme.palette.primary.main,
+        borderLeftStyle: "solid",
+        display: "flex",
+        flexDirection: "column",
+    },
+    offSpeakerBlock: {
+        margin: 4,
+        marginBottom: 16,
+        padding: "0 8px",
+        borderLeft: 4,
+        borderLeftColor: theme.palette.background.paper,
+        borderLeftStyle: "solid",
+        display: "flex",
+        flexDirection: "column",
+    },
+    sliderRoot: {
+        padding: "12px 0",
+    },
+    sliderRootMax: {
+        color: theme.palette.admin.main,
+        padding: "12px 0",
     }
-
 }))
 
 export default function SpeakerCard(props) {
 
     const classes = useStyles();
-    const [ volume, setVolume] = useState(props.speaker.vol_percent)
+    const { isAdmin } = useContext(UserContext)
+    const [ volume, setVolume ] = useState(props.speaker.vol_percent)
+    const [ maxVolume, setMaxVolume ] = useState(props.speaker.max_volume_percent)
+    const [ showMax, setShowMax ] = useState(false)
     const on = props.speaker.power === "on"
 //    const mute = props.speaker.mute === "on"
     const label = props.speaker.name.endsWith(' Speakers') ? props.speaker.name.replace(' Speakers','') : props.speaker.name
 
     useEffect(() => {
         setVolume(props.speaker.vol_percent)
+        setMaxVolume(props.speaker.max_volume_percent)
     // eslint-disable-next-line 
     }, [ props.speaker ]);
 
@@ -100,18 +133,46 @@ export default function SpeakerCard(props) {
         props.changeVolume(props.speaker.id, volumeValue)
     }
 
+    function changeDisplayVolume(event, volumeValue) {
+        setVolume(volumeValue)
+    }
+
+
+    function changeMaxVolume(event, volumeValue) {
+        setMaxVolume(volumeValue)
+        console.log('MAX volume event.target', volumeValue)
+        //var volumeValue = event.target.value
+        props.changeMaxVolume(props.speaker.id, volumeValue)
+    }
+
+    function changeDisplayMaxVolume(event, volumeValue) {
+        console.log('displaymax', volumeValue)
+        setMaxVolume(volumeValue)
+    }
+
+    function toggleShowMax() {
+        if (!isAdmin()) { return false}
+        setShowMax(!showMax)
+    }
+
     return (
-        <Card className={classes.speakerCard}>
+        <div className={ on ? classes.onSpeakerBlock : classes.offSpeakerBlock}>
             <div className={classes.labelLine} >
             <Switch checked={on} onChange={ changePower } />
-                <Typography className={classes.speakerLabel}>{ label }</Typography>
-                <Select value={props.speaker.input_name} onChange={changeInput} disableUnderline className={classes.inputSelect} disabled = { !on } >
+                <Typography className={classes.speakerLabel} onClick={ () => toggleShowMax() }>{ label }</Typography>
+                { (!showMax && on) && 
+                <Select variant="filled" classes={{ select : classes.inputSelect}} value={props.speaker.input_name} onChange={changeInput} disableUnderline className={classes.ixnputSelect} disabled = { !on } >
                     <MenuItem value={'Jukebox'}>Jukebox</MenuItem>
                     <MenuItem value={'Airplay'}>Airplay</MenuItem>
                 </Select>
+                }
+                { showMax && <Typography onClick={ () => toggleShowMax() }>Set Max</Typography> }
             </div>
+            { (!showMax && on) && 
             <div className={classes.volumeLine} >
                 <Slider
+                    classes={{ root: classes.sliderRoot }}
+                    onChange={ changeDisplayVolume }
                     onChangeCommitted = { changeVolume }
                     value={ volume }
                     valueLabelDisplay="auto"
@@ -122,7 +183,23 @@ export default function SpeakerCard(props) {
                     disabled = { !on }
                 />
             </div>
-        </Card>
+            }
+            { (isAdmin() && showMax) && 
+            <div className={classes.volumeLine} >
+                <Slider
+                    classes={{ root: classes.sliderRootMax }}
+                    onChange={ changeDisplayMaxVolume }
+                    onChangeCommitted = { changeMaxVolume }
+                    value={ maxVolume }
+                    valueLabelDisplay="auto"
+                    step={10 }
+                    min={0}
+                    max={100}
+                    marks
+                />
+            </div>
+            }
+        </div>
     )
     
 }

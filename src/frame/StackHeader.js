@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     buttonHolder: {
         display: "flex",
         width: "100%",
-        backgroundColor: theme.palette.primary.mediumDark,
+        backgroundColor: theme.palette.background.header,
     },
 }))
 
